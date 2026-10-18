@@ -1,33 +1,47 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="theme-emerald">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Zero ao Bilhão: O Banqueiro | Jogo de Banco & Empréstimos</title>
-  <meta name="description" content="Simulador mobile de banco, crédito e agiotagem legalizada. Comece com R$ 50 mil e construa um império financeiro de R$ 1 Bilhão!">
-  <meta name="theme-color" content="#08080c">
+  <title>Zero ao Bilhão: O Banqueiro v10.0 | Simulador Mobile Fintech</title>
+  <meta name="description" content="Simulador mobile definitivo de banco, crédito e agiotagem legalizada. Comece com R$ 50 mil e construa um império financeiro de R$ 1 Bilhão!">
+  <meta name="theme-color" content="#07070a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Canvas de partículas de fundo no desktop -->
-  <div class="ambient-glow"></div>
+  <!-- Efeitos de iluminação de fundo no desktop -->
+  <div class="ambient-glow" id="ambient-glow"></div>
+  <canvas id="confetti-canvas"></canvas>
 
-  <!-- Container do Smartphone / Mobile Frame -->
+  <!-- Container Principal do Smartphone (Mobile Frame) -->
   <main class="mobile-frame" id="app">
     
     <!-- Status Bar estilo iOS / Android moderno -->
     <header class="status-bar">
       <div class="status-left">
         <span class="status-time" id="clock-display">09:41</span>
+        <span class="version-tag">v10.0 PRO</span>
       </div>
-      <div class="dynamic-notch">
+      <div class="dynamic-notch" id="dynamic-notch" title="Toque para ver atalhos">
         <span class="notch-indicator"></span>
+        <span class="notch-pulse-text" id="notch-status-text">BACEN ONLINE</span>
       </div>
       <div class="status-right">
-        <button id="btn-sound-toggle" class="icon-btn-compact" title="Som Ligado/Desligado" aria-label="Som">
+        <!-- Botão Música de Fundo (Lo-Fi Synth) -->
+        <button id="btn-music-toggle" class="icon-btn-compact" title="Música Ambiente Lo-Fi" aria-label="Música">
+          <span class="music-note-icon">🎵</span>
+          <span class="sound-wave-bars" id="music-waves">
+            <i></i><i></i><i></i>
+          </span>
+        </button>
+        <!-- Botão Efeitos Sonoros -->
+        <button id="btn-sound-toggle" class="icon-btn-compact" title="Sons FX" aria-label="Som">
           <svg class="icon-svg" id="sound-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
             <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
@@ -38,7 +52,6 @@
             <line x1="17" y1="9" x2="23" y2="15"></line>
           </svg>
         </button>
-        <span class="network-badge">5G</span>
         <div class="battery-icon">
           <div class="battery-level"></div>
         </div>
@@ -49,34 +62,36 @@
     <section class="bank-top-card">
       <div class="bank-header-row">
         <div class="bank-identity">
-          <div class="bank-logo-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-            </svg>
+          <div class="bank-logo-badge" id="bank-logo-trigger" title="Mudar Tema / Personalizar">
+            <span id="bank-logo-emoji">🏛️</span>
           </div>
           <div>
             <div class="bank-title-row">
-              <h1 class="bank-name" id="bank-name-display" title="Clique para renomear">Nexus Bank</h1>
+              <h1 class="bank-name" id="bank-name-display" title="Toque para renomear">Nexus Bank</h1>
               <span class="bank-tier-tag" id="bank-tier-display">Agiota de Bairro</span>
             </div>
             <div class="date-speed-row">
               <span class="day-badge" id="current-day-display">Dia 1 • Mês 1</span>
               <span class="selic-badge" id="selic-rate-display">Selic: 11.25%</span>
+              <span class="basileia-badge" id="basileia-display" title="Índice de Solvência Basileia">Basileia: 42%</span>
             </div>
           </div>
         </div>
         
         <div class="game-speed-control">
-          <button id="btn-speed-pause" class="speed-btn active" title="Pausar/Play">⏸</button>
-          <button id="btn-speed-1x" class="speed-btn" title="Velocidade 1x">1x</button>
-          <button id="btn-speed-2x" class="speed-btn" title="Velocidade 2x">2x</button>
+          <button id="btn-speed-pause" class="speed-btn active" title="Pausar">⏸</button>
+          <button id="btn-speed-1x" class="speed-btn" title="Velocidade Normal">1x</button>
+          <button id="btn-speed-3x" class="speed-btn" title="Velocidade Acelerada">3x</button>
         </div>
       </div>
 
       <!-- Placar Financeiro Principal -->
       <div class="balance-container">
         <div class="balance-item main-cash">
-          <span class="balance-label">Caixa Disponível (Liquidez)</span>
+          <div class="balance-top-meta">
+            <span class="balance-label">Caixa Disponível (Liquidez)</span>
+            <span class="cash-flow-tag" id="daily-flow-tag">+R$ 0/dia</span>
+          </div>
           <div class="balance-value-row">
             <span class="currency-prefix">R$</span>
             <span class="balance-amount" id="cash-display">50.000,00</span>
@@ -85,11 +100,11 @@
 
         <div class="balance-stats-grid">
           <div class="stat-mini-card">
-            <span class="stat-sublabel">A Receber (Carteira)</span>
+            <span class="stat-sublabel">Carteira a Receber</span>
             <span class="stat-subvalue text-emerald" id="receivable-display">R$ 0,00</span>
           </div>
           <div class="stat-mini-card">
-            <span class="stat-sublabel">Dívidas (CDBs)</span>
+            <span class="stat-sublabel">Passivos (CDBs)</span>
             <span class="stat-subvalue text-rose" id="debts-display">R$ 0,00</span>
           </div>
           <div class="stat-mini-card">
@@ -97,7 +112,7 @@
             <span class="stat-subvalue text-cyan" id="networth-display">R$ 50.000,00</span>
           </div>
           <div class="stat-mini-card">
-            <span class="stat-sublabel">Reputação</span>
+            <span class="stat-sublabel">Reputação Bacen</span>
             <span class="stat-subvalue text-gold" id="reputation-display">85% ★</span>
           </div>
         </div>
@@ -105,93 +120,168 @@
         <!-- Barra de Progresso Rumo ao Bilhão -->
         <div class="goal-progress-wrap">
           <div class="goal-label-row">
-            <span>Rumo a <strong>R$ 1 Bilhão</strong></span>
-            <span id="goal-percentage">0.005%</span>
+            <span>Meta: <strong class="text-gold">R$ 1.000.000.000</strong></span>
+            <span class="goal-pct-badge" id="goal-percentage">0.005%</span>
           </div>
           <div class="progress-track">
             <div class="progress-bar-fill" id="goal-progress-fill" style="width: 0.5%"></div>
           </div>
         </div>
+
+        <!-- Mini Gráfico Sparkline de Patrimônio em Tempo Real -->
+        <div class="chart-sparkline-row">
+          <canvas id="networth-sparkline" width="380" height="38"></canvas>
+        </div>
       </div>
     </section>
 
-    <!-- Notificações Ticker / Breaking News -->
+    <!-- Notícias Dinâmicas & Alertas COPOM (Breaking News Ticker) -->
     <div class="news-ticker-container" id="news-ticker">
-      <div class="news-icon">🔔</div>
-      <div class="news-marquee" id="news-text">Bem-vindo ao Mercado de Crédito! Aprove seus primeiros clientes.</div>
+      <div class="news-icon">📢</div>
+      <div class="news-marquee" id="news-text">Mercado de crédito aberto! Avalie propostas na mesa ou deslize para aprovar.</div>
     </div>
 
-    <!-- Área de Conteúdo das Abas (Rolável) -->
+    <!-- Área de Conteúdo das Abas (Rolagem Fluida) -->
     <div class="app-content-scroll" id="content-area">
 
-      <!-- ABA 1: MESA DE EMPRÉSTIMOS (INBOX) -->
+      <!-- ===================================================================
+           ABA 1: MESA DE CRÉDITO (INBOX COM SWIPE TINDER/REIGNS STYLE)
+           =================================================================== -->
       <section class="tab-view active" id="tab-inbox">
         <div class="section-title-row">
           <div>
-            <h2 class="section-title">Mesa de Crédito</h2>
-            <p class="section-desc">Avalie tomadores de empréstimo e defina sua margem</p>
+            <h2 class="section-title">Mesa de Operações</h2>
+            <p class="section-desc">Arraste para aprovar/recusar ou use as ações táticas</p>
           </div>
-          <span class="counter-pill" id="pending-clients-count">3 aguardando</span>
-        </div>
-
-        <!-- Card do Cliente Atual -->
-        <div class="client-card" id="current-client-card">
-          <!-- Renderizado dinamicamente via JS -->
-          <div class="client-empty-state">
-            <div class="empty-icon">⏳</div>
-            <h3>Buscando clientes no mercado...</h3>
-            <p>Acelere o tempo ou faça campanhas de marketing para atrair novas solicitações de crédito!</p>
+          <div class="inbox-actions-header">
+            <span class="counter-pill" id="pending-clients-count">4 aguardando</span>
           </div>
         </div>
 
-        <!-- Botões de Ação Rápida de Dia -->
+        <!-- Deck Interativo de Cartas Deslizáveis (Swipe Deck) -->
+        <div class="swipe-deck-wrapper" id="swipe-deck">
+          <!-- Card interativo renderizado dinamicamente -->
+          <div class="tinder-card" id="active-swipe-card">
+            <!-- Conteúdo dinâmico via JS -->
+          </div>
+          
+          <!-- Carimbo visual flutuante durante o arraste -->
+          <div class="swipe-stamp stamp-approve" id="stamp-approve-visual">APROVAR</div>
+          <div class="swipe-stamp stamp-reject" id="stamp-reject-visual">RECUSAR</div>
+        </div>
+
+        <!-- Dica de Gestos e Ações Rápidas -->
+        <div class="swipe-hints-row">
+          <span class="hint-left">👈 Arraste p/ Recusar</span>
+          <span class="hint-center">🎯 Toque no cartão p/ detalhes</span>
+          <span class="hint-right">Arraste p/ Aprovar 👉</span>
+        </div>
+
+        <!-- Botões de Ação Rápida de Decisão -->
+        <div class="deck-controls-row">
+          <button class="btn-circle btn-circle-reject" id="btn-quick-reject" title="Recusar Proposta (←)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+
+          <button class="btn-circle btn-circle-audit" id="btn-quick-dossier" title="Ver Dossiê SPC/Serasa Completo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+
+          <button class="btn-circle btn-circle-counter" id="btn-quick-counter" title="Contraproposta com Garantia">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+          </button>
+
+          <button class="btn-circle btn-circle-approve" id="btn-quick-approve" title="Aprovar Empréstimo (→)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Ação de Passagem de Dia -->
         <div class="day-pass-action">
           <button id="btn-next-day" class="btn-primary-action pulse-anim">
-            <span>📅 Avançar 1 Dia (Receber Juros)</span>
+            <span>📅 Avançar 1 Dia (Receber Juros & Parcelas)</span>
           </button>
         </div>
       </section>
 
-      <!-- ABA 2: CARTEIRA ATIVA & COBRANÇA -->
+      <!-- ===================================================================
+           ABA 2: CARTEIRA ATIVA & CENTRAL DE COBRANÇAS
+           =================================================================== -->
       <section class="tab-view" id="tab-loans">
         <div class="section-title-row">
           <div>
-            <h2 class="section-title">Carteira de Empréstimos</h2>
-            <p class="section-desc">Monitore contratos ativos e cobre devedores</p>
+            <h2 class="section-title">Carteira de Clientes</h2>
+            <p class="section-desc">Monitore contratos, cobre inadimplentes e execute bens</p>
           </div>
           <div class="filter-pills">
             <button class="filter-pill active" data-filter="all">Todos</button>
             <button class="filter-pill" data-filter="late">Em Atraso</button>
+            <button class="filter-pill" data-filter="default">Calotes</button>
           </div>
         </div>
 
         <div class="loans-summary-bar">
           <div>
-            <span class="sub-muted">Inadimplência Atual:</span>
+            <span class="sub-muted">Inadimplência:</span>
             <span class="sub-bold text-rose" id="default-rate-display">0.0%</span>
           </div>
           <div>
-            <span class="sub-muted">Contratos:</span>
+            <span class="sub-muted">Receita Prevista/Mês:</span>
+            <span class="sub-bold text-emerald" id="monthly-forecast-display">R$ 0,00</span>
+          </div>
+          <div>
+            <span class="sub-muted">Ativos:</span>
             <span class="sub-bold" id="active-contracts-count">0</span>
           </div>
         </div>
 
         <div class="loans-list" id="loans-list-container">
-          <div class="empty-state-simple">
-            <p>Nenhum empréstimo ativo no momento. Vá para a <strong>Mesa de Crédito</strong> e aprove seus primeiros contratos!</p>
-          </div>
+          <!-- Renderizado via JS -->
         </div>
       </section>
 
-      <!-- ABA 3: CAPTAÇÃO & CDBs -->
+      <!-- ===================================================================
+           ABA 3: CAPTAÇÃO & TESOURO (CDBs & TÍTULOS SELIC)
+           =================================================================== -->
       <section class="tab-view" id="tab-funding">
         <div class="section-title-row">
           <div>
-            <h2 class="section-title">Captação & Alavancagem</h2>
-            <p class="section-desc">Capte dinheiro de investidores para emprestar mais</p>
+            <h2 class="section-title">Captação & Tesouro</h2>
+            <p class="section-desc">Alavanque liquidez com investidores ou aplique no Tesouro</p>
           </div>
         </div>
 
+        <!-- Tesouro Seguro (Aplicações sem risco para caixa ocioso) -->
+        <div class="treasury-card">
+          <div class="treasury-header">
+            <div>
+              <span class="badge-tag badge-purpose">RESERVA SEGURA</span>
+              <h3 class="treasury-title">Tesouro Selic 100% CDI</h3>
+            </div>
+            <span class="text-emerald font-mono font-bold" id="treasury-yield-rate">+0.95%/mês</span>
+          </div>
+          <p class="treasury-desc">Aplique seu caixa parado no Tesouro Nacional. Sem risco de calote, rendimento diário automático.</p>
+          <div class="treasury-balance-row">
+            <span>Saldo Aplicado: <strong class="text-cyan font-mono" id="treasury-balance-display">R$ 0,00</strong></span>
+            <div class="treasury-actions">
+              <button class="btn-small-treasury" id="btn-treasury-deposit">+ Aplicar R$ 10k</button>
+              <button class="btn-small-treasury btn-secondary" id="btn-treasury-withdraw">Resgatar Tudo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Emissão de CDBs -->
+        <h3 class="subsection-title" style="margin-top: 18px;">Emissão de Títulos Privados (CDBs)</h3>
         <div class="funding-cards-container" id="funding-cards-container">
           <!-- Renderizado via JS -->
         </div>
@@ -199,39 +289,62 @@
         <div class="bailout-box">
           <div class="bailout-header">
             <span class="badge-danger">SOCORRO DO BANCO CENTRAL</span>
-            <h4>Linha de Rediscanto Emergencial</h4>
+            <h4>Linha de Redesconto Emergencial</h4>
           </div>
-          <p>Se o seu caixa ficar negativo, o Banco Central salvará sua liquidez, mas cobrará 25% de juros imediatos e multará sua reputação!</p>
-          <button id="btn-emergency-loan" class="btn-outline-danger">Solicitar R$ 20.000 (Emergência)</button>
+          <p>Caso sua liquidez fique negativa, o Bacen injeta capital com juros de 25% a.m. e penalidade de reputação.</p>
+          <button id="btn-emergency-loan" class="btn-outline-danger">Solicitar R$ 30.000 (Emergência)</button>
         </div>
       </section>
 
-      <!-- ABA 4: UPGRADES & EXPANSÃO -->
+      <!-- ===================================================================
+           ABA 4: UPGRADES & DIRETORIA EXECUTIVA
+           =================================================================== -->
       <section class="tab-view" id="tab-upgrades">
         <div class="section-title-row">
           <div>
-            <h2 class="section-title">Expansão do Banco</h2>
-            <p class="section-desc">Melhore sede, tecnologia, inteligência e cobrança</p>
+            <h2 class="section-title">Conselho & Expansão</h2>
+            <p class="section-desc">Contrate diretores executivos e modernize a infraestrutura</p>
           </div>
         </div>
 
+        <!-- Diretoria Executiva (Executivos contratáveis com bônus passivos) -->
+        <h3 class="subsection-title">Diretoria Executiva (C-Level)</h3>
+        <div class="executives-grid" id="executives-container">
+          <!-- Renderizado via JS -->
+        </div>
+
+        <!-- Upgrades de Infraestrutura e Tecnologia -->
+        <h3 class="subsection-title" style="margin-top: 18px;">Infraestrutura, IA & Marketing</h3>
         <div class="upgrades-list" id="upgrades-list-container">
           <!-- Renderizado via JS -->
         </div>
       </section>
 
-      <!-- ABA 5: ESTATÍSTICAS & CONQUISTAS -->
+      <!-- ===================================================================
+           ABA 5: BALANÇO PATRIMONIAL & TROFÉUS
+           =================================================================== -->
       <section class="tab-view" id="tab-stats">
         <div class="section-title-row">
           <div>
-            <h2 class="section-title">Balanço Patrimonial</h2>
-            <p class="section-desc">Histórico financeiro e conquistas da sua instituição</p>
+            <h2 class="section-title">Balanço & Reputação</h2>
+            <p class="section-desc">Histórico corporativo, conquistas e personalização</p>
+          </div>
+        </div>
+
+        <!-- Personalização de Tema / Identidade Visual -->
+        <div class="theme-picker-card">
+          <span class="theme-label">Tema Visual do Banco:</span>
+          <div class="theme-buttons-row">
+            <button class="theme-pill theme-btn-emerald active" data-theme="theme-emerald">Esmeralda</button>
+            <button class="theme-pill theme-btn-purple" data-theme="theme-purple">Nubank Neon</button>
+            <button class="theme-pill theme-btn-gold" data-theme="theme-gold">Ouro Faria Lima</button>
+            <button class="theme-pill theme-btn-cyber" data-theme="theme-cyber">Cyberpunk</button>
           </div>
         </div>
 
         <div class="stats-table-card">
           <div class="stats-row">
-            <span>Total Emprestado:</span>
+            <span>Total Concedido em Empréstimos:</span>
             <strong id="stat-total-loaned">R$ 0,00</strong>
           </div>
           <div class="stats-row">
@@ -239,20 +352,20 @@
             <strong class="text-emerald" id="stat-interest-earned">R$ 0,00</strong>
           </div>
           <div class="stats-row">
-            <span>Perdas com Calotes:</span>
+            <span>Prejuízo com Inadimplência/Calotes:</span>
             <strong class="text-rose" id="stat-default-lost">R$ 0,00</strong>
           </div>
           <div class="stats-row">
-            <span>Contratos Realizados:</span>
+            <span>Leilões Judiciais Vencidos:</span>
+            <strong class="text-cyan" id="stat-seizures-count">0</strong>
+          </div>
+          <div class="stats-row">
+            <span>Contratos Realizados com Sucesso:</span>
             <strong id="stat-total-deals">0</strong>
           </div>
           <div class="stats-row">
-            <span>Bens Penhorados com Sucesso:</span>
-            <strong id="stat-seizures-count">0</strong>
-          </div>
-          <div class="stats-row">
-            <span>Recorde de Patrimônio:</span>
-            <strong class="text-cyan" id="stat-peak-networth">R$ 50.000,00</strong>
+            <span>Pico Histórico de Valuation:</span>
+            <strong class="text-gold" id="stat-peak-networth">R$ 50.000,00</strong>
           </div>
         </div>
 
@@ -271,15 +384,16 @@
 
     </div>
 
-    <!-- Barra de Navegação Inferior Mobile (Bottom Navigation) -->
+    <!-- Barra de Navegação Inferior Mobile (Bottom Navigation Bar) -->
     <nav class="bottom-nav">
       <button class="nav-item active" data-tab="tab-inbox" aria-label="Mesa">
         <div class="nav-icon-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-            <polyline points="22,6 12,13 2,6"></polyline>
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
           </svg>
-          <span class="nav-badge" id="nav-inbox-badge">3</span>
+          <span class="nav-badge" id="nav-inbox-badge">4</span>
         </div>
         <span class="nav-label">Mesa</span>
       </button>
@@ -287,8 +401,10 @@
       <button class="nav-item" data-tab="tab-loans" aria-label="Carteira">
         <div class="nav-icon-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
           </svg>
           <span class="nav-badge hidden" id="nav-late-badge">!</span>
         </div>
@@ -302,35 +418,97 @@
             <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
           </svg>
         </div>
-        <span class="nav-label">Captação</span>
+        <span class="nav-label">Tesouro</span>
       </button>
 
-      <button class="nav-item" data-tab="tab-upgrades" aria-label="Expansão">
+      <button class="nav-item" data-tab="tab-upgrades" aria-label="Conselho">
         <div class="nav-icon-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-            <polyline points="17 6 23 6 23 12"></polyline>
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
           </svg>
         </div>
-        <span class="nav-label">Upgrades</span>
+        <span class="nav-label">Conselho</span>
       </button>
 
       <button class="nav-item" data-tab="tab-stats" aria-label="Balanço">
         <div class="nav-icon-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M12 6v6l4 2"></path>
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
           </svg>
         </div>
-        <span class="nav-label">Stats</span>
+        <span class="nav-label">Balanço</span>
       </button>
     </nav>
 
-    <!-- Modal Dinâmico de Renegociação / Penhora / Confirmação -->
-    <div class="modal-overlay hidden" id="game-modal">
+    <!-- ===================================================================
+         MODAIS ESPECIAIS (DOSSIÊ, NEGOCIAÇÃO WHATSAPP, LEILÃO JUDICIAL)
+         =================================================================== -->
+
+    <!-- Modal 1: Dossiê Completo de Crédito (Consulta Serasa/SPC Profunda) -->
+    <div class="modal-overlay hidden" id="dossier-modal">
       <div class="modal-card">
-        <button class="modal-close" id="modal-close-btn">&times;</button>
-        <div id="modal-body"></div>
+        <button class="modal-close" onclick="closeModal('dossier-modal')">&times;</button>
+        <div class="dossier-header">
+          <span class="badge-tag badge-purpose">DOSSIÊ SIGILOSO • SERASA EXPERIAN</span>
+          <h3 class="modal-title" id="dossier-client-name">Relatório Cadastral</h3>
+        </div>
+        <div id="dossier-body">
+          <!-- Renderizado via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 2: Simulador de Cobrança WhatsApp (Chat Interativo com Devedor) -->
+    <div class="modal-overlay hidden" id="chat-modal">
+      <div class="modal-card chat-card-wrapper">
+        <div class="chat-header">
+          <div class="chat-avatar" id="chat-avatar-icon">👤</div>
+          <div>
+            <h4 class="chat-contact-name" id="chat-contact-name">Seu Manuel</h4>
+            <span class="chat-status">online agora</span>
+          </div>
+          <button class="modal-close" onclick="closeModal('chat-modal')">&times;</button>
+        </div>
+        <div class="chat-messages-container" id="chat-messages-container">
+          <!-- Mensagens renderizadas aqui -->
+        </div>
+        <div class="chat-options-container" id="chat-options-container">
+          <!-- Opções de resposta do banqueiro -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 3: Mini-Game de Leilão Judicial (Penhora com Martelo do Juiz) -->
+    <div class="modal-overlay hidden" id="auction-modal">
+      <div class="modal-card auction-card-wrapper">
+        <button class="modal-close" onclick="closeModal('auction-modal')">&times;</button>
+        <div class="auction-header">
+          <span class="gavel-icon">⚖️</span>
+          <div>
+            <span class="badge-tag badge-collateral">LEILÃO JUDICIAL ELETRÔNICO</span>
+            <h3 class="modal-title" id="auction-item-title">Veículo Penhorado</h3>
+          </div>
+        </div>
+        <div class="auction-body">
+          <div class="auction-current-bid-box">
+            <span class="bid-label">Maior Lance Registrado:</span>
+            <div class="bid-amount" id="auction-current-bid">R$ 0,00</div>
+            <div class="bid-timer" id="auction-timer-bar">
+              <div class="bid-timer-fill" id="auction-timer-fill"></div>
+            </div>
+          </div>
+          <div class="bidders-log" id="auction-log">
+            <!-- Lances de compradores concorrentes -->
+          </div>
+          <div class="auction-controls">
+            <button class="btn-auction-bid" id="btn-hammer-auction">🔨 Bater Martelo (Encerrar)</button>
+          </div>
+        </div>
       </div>
     </div>
 
