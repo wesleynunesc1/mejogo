@@ -1,0 +1,1508 @@
+/* ==========================================================================
+   Zero ao Bilhão: O Banqueiro - Design System & Mobile App Styling
+   Inspiração: Nubank Ultravioleta, Revolut Metal & Bloomberg Terminal Mobile
+   ========================================================================== */
+
+:root {
+  --bg-dark: #07070a;
+  --bg-card: #12131b;
+  --bg-card-elevated: #181a26;
+  --bg-card-highlight: #1f2233;
+  --bg-glass: rgba(18, 19, 27, 0.85);
+
+  --accent-emerald: #00f076;
+  --accent-emerald-glow: rgba(0, 240, 118, 0.25);
+  --accent-cyan: #00d2ff;
+  --accent-cyan-glow: rgba(0, 210, 255, 0.25);
+  --accent-gold: #fbbf24;
+  --accent-gold-glow: rgba(251, 191, 36, 0.25);
+  --accent-rose: #f43f5e;
+  --accent-rose-glow: rgba(244, 63, 94, 0.25);
+  --accent-purple: #8b5cf6;
+
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-faint: #475569;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(255, 255, 255, 0.16);
+  --border-glow: rgba(0, 240, 118, 0.4);
+
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 30px;
+
+  --safe-bottom: env(safe-area-inset-bottom, 16px);
+  --safe-top: env(safe-area-inset-top, 0px);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: #030305;
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fundo com efeito de luz ambiente em desktops */
+.ambient-glow {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 900px;
+  background: radial-gradient(circle at 50% 30%, rgba(0, 240, 118, 0.08), rgba(0, 210, 255, 0.04), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(40px);
+}
+
+/* ==========================================================================
+   Mobile App Frame (Mockup no desktop, tela cheia no celular)
+   ========================================================================== */
+.mobile-frame {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  height: 92vh;
+  max-height: 900px;
+  background-color: var(--bg-dark);
+  border-radius: 44px;
+  box-shadow: 
+    0 0 0 10px #1a1b24,
+    0 0 0 12px #262835,
+    0 25px 50px -12px rgba(0, 0, 0, 0.8),
+    0 0 80px rgba(0, 240, 118, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 10;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Responsividade nativa em telas mobile */
+@media (max-width: 500px) {
+  body {
+    background-color: var(--bg-dark);
+    align-items: flex-start;
+  }
+  .mobile-frame {
+    max-width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+  }
+  .ambient-glow {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Status Bar estilo iOS / Android
+   ========================================================================== */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px 4px 22px;
+  background: var(--bg-dark);
+  font-size: 13px;
+  font-weight: 700;
+  z-index: 20;
+}
+
+.status-left {
+  display: flex;
+  align-items: center;
+}
+
+.status-time {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.2px;
+}
+
+.dynamic-notch {
+  width: 90px;
+  height: 20px;
+  background: #000;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notch-indicator {
+  width: 8px;
+  height: 8px;
+  background: #111;
+  border-radius: 50%;
+}
+
+.status-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn-compact {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  transition: color 0.2s;
+}
+
+.icon-btn-compact:hover {
+  color: var(--text-main);
+}
+
+.icon-svg {
+  width: 16px;
+  height: 16px;
+}
+
+.network-badge {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.battery-icon {
+  width: 22px;
+  height: 11px;
+  border: 1.5px solid var(--text-muted);
+  border-radius: 3px;
+  padding: 1px;
+  position: relative;
+}
+
+.battery-icon::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 2.5px;
+  width: 1.5px;
+  height: 3px;
+  background: var(--text-muted);
+  border-radius: 0 1px 1px 0;
+}
+
+.battery-level {
+  width: 85%;
+  height: 100%;
+  background: var(--accent-emerald);
+  border-radius: 1px;
+}
+
+/* ==========================================================================
+   Header Superior do Banco & Painel de Balanço
+   ========================================================================== */
+.bank-top-card {
+  background: linear-gradient(180deg, #101119 0%, #0c0d14 100%);
+  padding: 12px 18px 14px 18px;
+  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+.bank-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.bank-identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bank-logo-badge {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border: 1px solid var(--border-active);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-emerald);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.bank-logo-badge svg {
+  width: 20px;
+  height: 20px;
+}
+
+.bank-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bank-name {
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.3px;
+  cursor: pointer;
+}
+
+.bank-tier-tag {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: rgba(0, 240, 118, 0.12);
+  color: var(--accent-emerald);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 240, 118, 0.25);
+}
+
+.date-speed-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.day-badge {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.selic-badge {
+  font-size: 10px;
+  color: var(--accent-gold);
+  background: rgba(251, 191, 36, 0.1);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.game-speed-control {
+  display: flex;
+  background: #171822;
+  border-radius: 8px;
+  padding: 2px;
+  border: 1px solid var(--border-subtle);
+}
+
+.speed-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.speed-btn.active {
+  background: var(--bg-card-highlight);
+  color: var(--accent-emerald);
+}
+
+/* Placar de Valores Financeiros */
+.balance-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.balance-item.main-cash {
+  background: radial-gradient(circle at 10% 20%, rgba(0, 240, 118, 0.08), transparent 60%), #141520;
+  border: 1px solid rgba(0, 240, 118, 0.2);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+}
+
+.balance-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.balance-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.currency-prefix {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-emerald);
+}
+
+.balance-amount {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.balance-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.stat-mini-card {
+  background: #13141f;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-sublabel {
+  font-size: 9px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stat-subvalue {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Cores Utilitárias */
+.text-emerald { color: var(--accent-emerald); }
+.text-cyan { color: var(--accent-cyan); }
+.text-rose { color: var(--accent-rose); }
+.text-gold { color: var(--accent-gold); }
+
+/* Barra Rumo ao Bilhão */
+.goal-progress-wrap {
+  margin-top: 2px;
+}
+
+.goal-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.goal-label-row strong {
+  color: var(--accent-gold);
+}
+
+.progress-track {
+  width: 100%;
+  height: 6px;
+  background: #1b1d2a;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan), var(--accent-gold));
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+/* ==========================================================================
+   Notícias e Avisos (Ticker Marquee)
+   ========================================================================== */
+.news-ticker-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0f111a;
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 11px;
+}
+
+.news-icon {
+  font-size: 12px;
+  animation: ring 3s infinite ease-in-out;
+}
+
+.news-marquee {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+@keyframes ring {
+  0%, 100% { transform: rotate(0); }
+  10%, 30% { transform: rotate(14deg); }
+  20%, 40% { transform: rotate(-14deg); }
+}
+
+/* ==========================================================================
+   Área de Conteúdo com Rolagem
+   ========================================================================== */
+.app-content-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px 16px 85px 16px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Scrollbar estilizada */
+.app-content-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.app-content-scroll::-webkit-scrollbar-thumb {
+  background: var(--bg-card-highlight);
+  border-radius: 4px;
+}
+
+.tab-view {
+  display: none;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.tab-view.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: #fff;
+}
+
+.section-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.counter-pill {
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(0, 240, 118, 0.12);
+  color: var(--accent-emerald);
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 240, 118, 0.25);
+}
+
+/* ==========================================================================
+   ABA 1: Mesa de Empréstimos (Card do Cliente)
+   ========================================================================== */
+.client-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-active);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.client-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.client-avatar-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e293b, #334155);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  border: 2px solid var(--border-active);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar-badge-score {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: #000;
+}
+
+.score-high { background: var(--accent-emerald); }
+.score-mid { background: var(--accent-gold); }
+.score-low { background: var(--accent-rose); color: #fff; }
+
+.client-info h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.client-profession {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.client-badges {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.badge-tag {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.badge-purpose {
+  background: rgba(0, 210, 255, 0.15);
+  color: var(--accent-cyan);
+}
+
+.badge-collateral {
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--accent-gold);
+}
+
+/* Detalhes do Pedido */
+.loan-amount-box {
+  background: #0d0e16;
+  border: 1px dashed var(--border-active);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.loan-requested-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.loan-requested-val {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  margin: 2px 0;
+}
+
+.loan-terms-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Tabela de Risco & Dados */
+.client-data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.data-row-card {
+  background: #161824;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.data-row-label {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.data-row-val {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 2px;
+}
+
+/* Auditoria de Risco */
+.audit-box {
+  background: #171a29;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.audit-status {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.audit-status strong {
+  display: block;
+  color: #c4b5fd;
+  font-size: 12px;
+}
+
+.btn-audit {
+  background: rgba(139, 92, 246, 0.2);
+  border: 1px solid var(--accent-purple);
+  color: #d8b4fe;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-audit:hover {
+  background: var(--accent-purple);
+  color: #fff;
+}
+
+/* Seletor de Taxa de Juros (Slider) */
+.interest-slider-box {
+  background: #141622;
+  border-radius: var(--radius-md);
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.slider-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.slider-label-row span {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.slider-val-tag {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--accent-emerald);
+}
+
+.styled-range {
+  width: 100%;
+  accent-color: var(--accent-emerald);
+  cursor: pointer;
+}
+
+.projected-profit-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Botões de Decisão (Aprovar / Recusar) */
+.decision-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 10px;
+}
+
+.btn-reject {
+  background: rgba(244, 63, 94, 0.15);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  color: var(--accent-rose);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-reject:hover {
+  background: var(--accent-rose);
+  color: #fff;
+}
+
+.btn-approve {
+  background: linear-gradient(135deg, #00f076, #059669);
+  border: none;
+  color: #042f1a;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 240, 118, 0.3);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-approve:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 240, 118, 0.45);
+}
+
+.btn-approve:disabled, .btn-reject:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Botão Avançar Dia */
+.day-pass-action {
+  margin-top: 16px;
+}
+
+.btn-primary-action {
+  width: 100%;
+  background: #181b28;
+  border: 1px solid var(--border-active);
+  color: #fff;
+  padding: 13px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.btn-primary-action:hover {
+  background: #202436;
+  border-color: var(--accent-cyan);
+}
+
+.pulse-anim {
+  animation: pulseButton 2.5s infinite;
+}
+
+@keyframes pulseButton {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 240, 118, 0); }
+  50% { box-shadow: 0 0 0 6px rgba(0, 240, 118, 0.15); }
+}
+
+/* ==========================================================================
+   ABA 2: Carteira Ativa & Cobrança
+   ========================================================================== */
+.loans-summary-bar {
+  display: flex;
+  justify-content: space-between;
+  background: #11131c;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+  font-size: 11px;
+}
+
+.sub-muted { color: var(--text-muted); }
+.sub-bold { font-weight: 700; }
+
+.filter-pills {
+  display: flex;
+  gap: 4px;
+}
+
+.filter-pill {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.filter-pill.active {
+  background: var(--bg-card-highlight);
+  color: #fff;
+  border-color: var(--border-active);
+}
+
+.loans-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.loan-item-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.loan-item-card.status-late {
+  border-color: rgba(244, 63, 94, 0.4);
+  background: #161014;
+}
+
+.loan-item-card.status-default {
+  border-color: var(--accent-rose);
+  background: #1f0d14;
+}
+
+.loan-top-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.borrower-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.borrower-meta {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.loan-status-badge {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.badge-on-time { background: rgba(0, 240, 118, 0.15); color: var(--accent-emerald); }
+.badge-late { background: rgba(251, 191, 36, 0.15); color: var(--accent-gold); }
+.badge-default { background: rgba(244, 63, 94, 0.2); color: var(--accent-rose); }
+
+.loan-financials {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.loan-progress-mini {
+  width: 100%;
+  height: 4px;
+  background: #202436;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.loan-progress-mini-bar {
+  height: 100%;
+  background: var(--accent-emerald);
+}
+
+.loan-actions-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.btn-action-small {
+  flex: 1;
+  background: #1e2235;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 6px 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.btn-action-small:hover {
+  color: #fff;
+  background: #262c44;
+}
+
+.btn-action-danger {
+  color: var(--accent-rose);
+  border-color: rgba(244, 63, 94, 0.3);
+}
+
+.btn-action-danger:hover {
+  background: var(--accent-rose);
+  color: #fff;
+}
+
+/* ==========================================================================
+   ABA 3: Captação & Investimentos (Funding)
+   ========================================================================== */
+.funding-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.funding-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.funding-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.funding-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.funding-cost {
+  font-size: 11px;
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+
+.funding-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.funding-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.active-funding-amount {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+}
+
+.btn-fund-issue {
+  background: #1a2236;
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-fund-issue:hover {
+  background: var(--accent-cyan);
+  color: #000;
+}
+
+.bailout-box {
+  background: #180d12;
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+
+.badge-danger {
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--accent-rose);
+  letter-spacing: 0.5px;
+}
+
+.bailout-box h4 {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  margin: 4px 0 6px 0;
+}
+
+.bailout-box p {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+.btn-outline-danger {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--accent-rose);
+  color: var(--accent-rose);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-outline-danger:hover {
+  background: var(--accent-rose);
+  color: #fff;
+}
+
+/* ==========================================================================
+   ABA 4: Upgrades & Expansão
+   ========================================================================== */
+.upgrades-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.upgrade-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: all 0.2s;
+}
+
+.upgrade-card.purchased {
+  border-color: rgba(0, 240, 118, 0.3);
+  background: #0f1814;
+}
+
+.upgrade-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #171b29;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.upgrade-details {
+  flex: 1;
+}
+
+.upgrade-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.upgrade-desc {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+.btn-buy-upgrade {
+  background: #1c2336;
+  border: 1px solid var(--border-active);
+  color: var(--accent-emerald);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.btn-buy-upgrade:hover {
+  background: var(--accent-emerald);
+  color: #042f1a;
+  border-color: var(--accent-emerald);
+}
+
+.badge-purchased {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--accent-emerald);
+  padding: 6px 10px;
+}
+
+/* ==========================================================================
+   ABA 5: Estatísticas & Conquistas
+   ========================================================================== */
+.stats-table-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.stats-row strong {
+  font-family: var(--font-mono);
+  color: #fff;
+}
+
+.subsection-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.achievement-card {
+  background: #10121a;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.5;
+  transition: all 0.3s;
+}
+
+.achievement-card.unlocked {
+  opacity: 1;
+  border-color: rgba(251, 191, 36, 0.4);
+  background: #1a160d;
+}
+
+.ach-icon {
+  font-size: 20px;
+}
+
+.ach-info h4 {
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.ach-info p {
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.save-reset-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-secondary {
+  flex: 1;
+  background: #181d2c;
+  border: 1px solid var(--border-active);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-danger-outline {
+  flex: 1;
+  background: transparent;
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  color: var(--accent-rose);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   Barra de Navegação Inferior (Bottom Bar Mobile)
+   ========================================================================== */
+.bottom-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: rgba(10, 11, 16, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: var(--safe-bottom);
+  z-index: 50;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 6px 12px;
+  border-radius: 12px;
+  position: relative;
+}
+
+.nav-item.active {
+  color: var(--accent-emerald);
+}
+
+.nav-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-icon-wrap svg {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.2s;
+}
+
+.nav-item.active .nav-icon-wrap svg {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 2px 8px var(--accent-emerald-glow));
+}
+
+.nav-badge {
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  background: var(--accent-rose);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  min-width: 14px;
+  height: 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+}
+
+.nav-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+/* ==========================================================================
+   Modais & Toasts
+   ========================================================================== */
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal-card {
+  background: #141724;
+  border: 1px solid var(--border-active);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  width: 100%;
+  max-width: 360px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.modal-text {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Toasts flutuantes */
+.toast-container {
+  position: absolute;
+  top: 60px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 200;
+}
+
+.toast {
+  background: rgba(18, 20, 30, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-active);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideToast 0.3s ease-out forwards;
+}
+
+.toast.toast-success { border-color: var(--accent-emerald); }
+.toast.toast-danger { border-color: var(--accent-rose); }
+.toast.toast-warning { border-color: var(--accent-gold); }
+
+@keyframes slideToast {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.empty-state-simple {
+  text-align: center;
+  padding: 30px 16px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
