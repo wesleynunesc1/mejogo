@@ -1,12 +1,10 @@
 /**
- * ZERO AO BILHÃO: O BANQUEIRO v10.0 PRO
- * Simulador Mobile Completo de Banco, Crédito e Empréstimos
- * Features: Swipe Deck Tinder-style, Chat de Cobrança WhatsApp, Leilão Judicial,
- * Tesouro Selic, Conselho C-Level, Lo-Fi Synth Music & Confetti Engine.
+ * ZERO AO BILHÃO: O BANQUEIRO v10000x ULTIMATE
+ * Simulador Mobile AAA de Banco, Crédito, Bolsa B3, Cartões Black, Sede 3D e M&A
  */
 
 // =============================================================================
-// Web Audio API Synthesizer 2.0 (Efeitos Sonoros & Lo-Fi Music Synth Nativo)
+// Web Audio API Synthesizer 3.0 (SFX Multi-Camadas & Lo-Fi Synth Multi-Track)
 // =============================================================================
 class SoundFX {
   constructor() {
@@ -26,7 +24,6 @@ class SoundFX {
     }
   }
 
-  // Efeitos Sonoros (SFX)
   playCash() {
     if (!this.soundEnabled) return;
     this.init();
@@ -58,6 +55,45 @@ class SoundFX {
     } catch (e) {}
   }
 
+  playLaser() {
+    if (!this.soundEnabled) return;
+    this.init();
+    if (!this.ctx) return;
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(800, now);
+      osc.frequency.exponentialRampToValueAtTime(200, now + 0.3);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.3);
+    } catch (e) {}
+  }
+
+  playWheelClick() {
+    if (!this.soundEnabled) return;
+    this.init();
+    if (!this.ctx) return;
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(580, now);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.04);
+    } catch (e) {}
+  }
+
   playWoosh() {
     if (!this.soundEnabled) return;
     this.init();
@@ -67,8 +103,8 @@ class SoundFX {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(400, now);
-      osc.frequency.exponentialRampToValueAtTime(120, now + 0.15);
+      osc.frequency.setValueAtTime(450, now);
+      osc.frequency.exponentialRampToValueAtTime(100, now + 0.15);
       gain.gain.setValueAtTime(0.12, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
       osc.connect(gain);
@@ -88,7 +124,7 @@ class SoundFX {
       const gain = this.ctx.createGain();
       osc.type = 'square';
       osc.frequency.setValueAtTime(160, now);
-      osc.frequency.exponentialRampToValueAtTime(45, now + 0.15);
+      osc.frequency.exponentialRampToValueAtTime(40, now + 0.15);
       gain.gain.setValueAtTime(0.35, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
       osc.connect(gain);
@@ -104,12 +140,11 @@ class SoundFX {
     if (!this.ctx) return;
     try {
       const now = this.ctx.currentTime;
-      // Martelo do Leilão Judicial (impacto seco de madeira)
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(120, now);
-      osc.frequency.exponentialRampToValueAtTime(30, now + 0.2);
+      osc.frequency.setValueAtTime(130, now);
+      osc.frequency.exponentialRampToValueAtTime(25, now + 0.22);
       gain.gain.setValueAtTime(0.5, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
       osc.connect(gain);
@@ -129,7 +164,7 @@ class SoundFX {
       const gain = this.ctx.createGain();
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(220, now);
-      osc.frequency.setValueAtTime(150, now + 0.1);
+      osc.frequency.setValueAtTime(140, now + 0.1);
       gain.gain.setValueAtTime(0.18, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
       osc.connect(gain);
@@ -161,7 +196,6 @@ class SoundFX {
     } catch (e) {}
   }
 
-  // Música Ambiente Lo-Fi Synth Gerada Dinamicamente
   toggleMusic() {
     this.musicEnabled = !this.musicEnabled;
     const waves = document.getElementById("music-waves");
@@ -170,7 +204,7 @@ class SoundFX {
       this.init();
       if (waves) waves.classList.add("active");
       this.startLoFiBeat();
-      showToast("🎵 Música Lo-Fi Ambiente ativada!", "toast-success");
+      showToast("🎵 Música Lo-Fi Multi-Track ativada!", "toast-success");
     } else {
       if (waves) waves.classList.remove("active");
       if (this.musicInterval) {
@@ -183,7 +217,6 @@ class SoundFX {
 
   startLoFiBeat() {
     if (!this.ctx) return;
-    // Escala pentatônica menor suave (Lo-Fi Fintech Vibe)
     const chords = [
       [261.63, 311.13, 392.00, 466.16], // Cm7
       [220.00, 261.63, 329.63, 392.00], // Am7
@@ -198,11 +231,12 @@ class SoundFX {
         const note = chord[this.musicStep % chord.length];
         const now = this.ctx.currentTime;
 
+        // Teclado Elétrico Lo-Fi
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         osc.type = 'sine';
         osc.frequency.setValueAtTime(note, now);
-        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.setValueAtTime(0.045, now);
         gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
 
         osc.connect(gain);
@@ -210,16 +244,30 @@ class SoundFX {
         osc.start(now);
         osc.stop(now + 1.2);
 
+        // Hi-Hat sutil a cada 2 tempos
+        if (this.musicStep % 2 === 0) {
+          const hatOsc = this.ctx.createOscillator();
+          const hatGain = this.ctx.createGain();
+          hatOsc.type = 'triangle';
+          hatOsc.frequency.setValueAtTime(6000, now);
+          hatGain.gain.setValueAtTime(0.008, now);
+          hatGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+          hatOsc.connect(hatGain);
+          hatGain.connect(this.ctx.destination);
+          hatOsc.start(now);
+          hatOsc.stop(now + 0.05);
+        }
+
         this.musicStep++;
       } catch (e) {}
-    }, 650);
+    }, 600);
   }
 }
 
 const sounds = new SoundFX();
 
 // =============================================================================
-// Confetti Engine Nativo (Partículas de Vitória e Comemoração)
+// Confetti & Flying Money Engine
 // =============================================================================
 class ConfettiEngine {
   constructor() {
@@ -254,9 +302,7 @@ class ConfettiEngine {
       });
     }
 
-    if (!this.animId) {
-      this.loop();
-    }
+    if (!this.animId) this.loop();
   }
 
   loop() {
@@ -267,7 +313,7 @@ class ConfettiEngine {
       const p = this.particles[i];
       p.x += p.vx;
       p.y += p.vy;
-      p.vy += 0.4; // gravidade
+      p.vy += 0.4;
       p.rotation += p.vr;
       p.alpha -= 0.012;
 
@@ -294,8 +340,20 @@ class ConfettiEngine {
 
 let confetti = null;
 
+function spawnFlyingMoney() {
+  const container = document.getElementById("flying-money-container");
+  if (!container) return;
+  const bill = document.createElement("div");
+  bill.className = "flying-bill";
+  bill.textContent = "💵";
+  bill.style.left = `${Math.random() * 60 + 20}%`;
+  bill.style.top = `${Math.random() * 20 + 40}%`;
+  container.appendChild(bill);
+  setTimeout(() => bill.remove(), 1500);
+}
+
 // =============================================================================
-// Estado do Jogo (Game State v10.0 PRO)
+// Estado do Jogo (Game State v10000x ULTIMATE)
 // =============================================================================
 const INITIAL_STATE = {
   bankName: "Nexus Bank",
@@ -308,13 +366,31 @@ const INITIAL_STATE = {
   reputation: 85,
   peakNetWorth: 50000,
   netWorthHistory: [50000],
+  hqTier: 1,
+  cardsIssued: 0,
+  cardRevenueMonthly: 0,
 
   stats: {
     totalLoaned: 0,
     totalInterestEarned: 0,
     totalDefaultLost: 0,
     totalDeals: 0,
-    seizuresCount: 0
+    seizuresCount: 0,
+    cardsEarned: 0,
+    maCount: 0
+  },
+
+  stocks: {
+    itub: { name: "ITUB4", price: 34.50, owned: 0, delta: 0.8 },
+    bbdc: { name: "BBDC4", price: 14.20, owned: 0, delta: -0.4 },
+    nu: { name: "NU", price: 68.00, owned: 0, delta: 2.1 },
+    btc: { name: "BTC", price: 380.00, owned: 0, delta: 4.5 }
+  },
+
+  maAcquisitions: {
+    agiotaZe: false,
+    creditoFacil: false,
+    panamericano: false
   },
 
   executives: {
@@ -359,11 +435,17 @@ const INITIAL_STATE = {
 
 let gameState = JSON.parse(JSON.stringify(INITIAL_STATE));
 let gameInterval = null;
-let gameSpeed = 0; // 0: pause, 1: 1x, 3: 3x
+let gameSpeed = 0;
 
-// =============================================================================
-// Configurações & Dados do Jogo
-// =============================================================================
+// Configuração das Sedes
+const HQ_TIERS = [
+  { level: 1, title: "Garagem Subterrânea", icon: "🏚️", sign: "NEXUS GARAGE", cost: 150000 },
+  { level: 2, title: "Edifício Av. Paulista", icon: "🏢", sign: "NEXUS PAULISTA", cost: 750000 },
+  { level: 3, title: "Torre Faria Lima", icon: "🏛️", sign: "NEXUS FARIA LIMA", cost: 3500000 },
+  { level: 4, title: "Sede Global Cyberpunk", icon: "🌐", sign: "NEXUS GLOBAL", cost: 15000000 },
+  { level: 5, title: "Estação Orbital Financeira 👑", icon: "🛰️", sign: "NEXUS ORBITAL", cost: 100000000 }
+];
+
 const BANK_TIERS = [
   { min: 0, name: "Agiota de Bairro" },
   { min: 150000, name: "Correspondente Bancário" },
@@ -410,104 +492,29 @@ const EXECUTIVES_CONFIG = [
 ];
 
 const UPGRADES_CONFIG = [
-  {
-    id: "aiScore",
-    title: "IA Preditiva de Crédito",
-    cost: 25000,
-    icon: "🧠",
-    desc: "Calcula automaticamente a probabilidade exata de calote de cada cliente."
-  },
-  {
-    id: "trafficAds",
-    title: "Tráfego Pago & Meta Ads",
-    cost: 35000,
-    icon: "📱",
-    desc: "+3 solicitações de empréstimo adicionais todos os dias."
-  },
-  {
-    id: "proCollectors",
-    title: "Call Center Automatizado",
-    cost: 65000,
-    icon: "📞",
-    desc: "Cobre devedores com robôs e dobre a recuperação amigável de parcelas."
-  },
-  {
-    id: "officePaulista",
-    title: "Sede Comercial na Av. Paulista",
-    cost: 150000,
-    icon: "🏢",
-    desc: "Reputação base elevada para 92% e atrai empresas médias."
-  },
-  {
-    id: "facialAntifraud",
-    title: "Biometria Facial Antifraude",
-    cost: 200000,
-    icon: "🛡️",
-    desc: "Bloqueia 100% de golpistas e CPFs falsos antes de chegarem à mesa."
-  },
-  {
-    id: "eliteLawyers",
-    title: "Banca Jurídica Corporativa",
-    cost: 450000,
-    icon: "⚖️",
-    desc: "Penhoras e leilões judiciais ocorrem com 100% de velocidade e êxito."
-  },
-  {
-    id: "officeFariaLima",
-    title: "Torre Faria Lima High-Tech",
-    cost: 2000000,
-    icon: "🏛️",
-    desc: "Desbloqueia clientes corporativos e pedidos de até R$ 2.000.000."
-  },
-  {
-    id: "soccerSponsor",
-    title: "Patrocínio Máster no Futebol",
-    cost: 5000000,
-    icon: "⚽",
-    desc: "Aumenta a capacidade de captação de CDBs de investidores em 400%."
-  },
-  {
-    id: "officeDigital",
-    title: "Sede Global na Nuvem",
-    cost: 25000000,
-    icon: "🌐",
-    desc: "Infraestrutura financeira de classe mundial para o topo do sistema."
-  }
+  { id: "aiScore", title: "IA Preditiva de Crédito", cost: 25000, icon: "🧠", desc: "Calcula automaticamente a probabilidade exata de calote de cada cliente." },
+  { id: "trafficAds", title: "Tráfego Pago & Meta Ads", cost: 35000, icon: "📱", desc: "+3 solicitações de empréstimo adicionais todos os dias." },
+  { id: "proCollectors", title: "Call Center Automatizado", cost: 65000, icon: "📞", desc: "Cobre devedores com robôs e dobre a recuperação amigável de parcelas." },
+  { id: "facialAntifraud", title: "Biometria Facial Antifraude", cost: 200000, icon: "🛡️", desc: "Bloqueia 100% de golpistas e CPFs falsos antes de chegarem à mesa." },
+  { id: "eliteLawyers", title: "Banca Jurídica Corporativa", cost: 450000, icon: "⚖️", desc: "Penhoras e leilões judiciais ocorrem com 100% de velocidade e êxito." },
+  { id: "soccerSponsor", title: "Patrocínio Máster no Futebol", cost: 5000000, icon: "⚽", desc: "Aumenta a capacidade de captação de CDBs de investidores em 400%." }
+];
+
+const MA_CONFIG = [
+  { id: "agiotaZe", name: "Agiotagem do Zé", cost: 80000, revenue: 9000, desc: "Absorve 40 clientes fiéis e gera R$ 9.000/mês de juros garantidos." },
+  { id: "creditoFacil", name: "Crédito Fácil Express", cost: 350000, revenue: 42000, desc: "Financeira de shopping que gera R$ 42.000/mês com 120 clientes." },
+  { id: "panamericano", name: "Banco Falido da TV", cost: 2000000, revenue: 195000, desc: "Adquire carteira corporativa gigantesca gerando R$ 195.000/mês!" }
 ];
 
 const CDB_CONFIG = [
-  {
-    id: "cdbDiario",
-    name: "CDB Liquidez Diária",
-    amount: 30000,
-    costRate: 0.8,
-    desc: "Captação simples de pequenos correntistas."
-  },
-  {
-    id: "cdbAnjo",
-    name: "CDB Investidor Qualificado",
-    amount: 150000,
-    costRate: 1.0,
-    desc: "Investidores que buscam 100% do CDI."
-  },
-  {
-    id: "cdbPrivate",
-    name: "CDB Private Banking",
-    amount: 800000,
-    costRate: 1.2,
-    desc: "Grandes fortunas aportando liquidez."
-  },
-  {
-    id: "cdbDebenture",
-    name: "Debêntures Institucionais",
-    amount: 5000000,
-    costRate: 1.4,
-    desc: "Emissão de dívida para fundos de pensão."
-  }
+  { id: "cdbDiario", name: "CDB Liquidez Diária", amount: 30000, costRate: 0.8, desc: "Captação simples de pequenos correntistas." },
+  { id: "cdbAnjo", name: "CDB Investidor Qualificado", amount: 150000, costRate: 1.0, desc: "Investidores buscando 100% do CDI." },
+  { id: "cdbPrivate", name: "CDB Private Banking", amount: 800000, costRate: 1.2, desc: "Grandes fortunas aportando liquidez." },
+  { id: "cdbDebenture", name: "Debêntures Institucionais", amount: 5000000, costRate: 1.4, desc: "Emissão de dívida para fundos de pensão." }
 ];
 
 const FIRST_NAMES = ["Carlos", "Mariana", "Lucas", "Beatriz", "Ricardo", "Juliana", "Rodrigo", "Camila", "Felipe", "Vanessa", "Mateus", "Aline", "Gabriel", "Patricia", "Rafael", "Tatiane", "Thiago", "Fernanda", "Gustavo", "Renata", "Arthur", "Letícia", "Bruno", "Monique"];
-const LAST_NAMES = ["Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira", "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Almeida", "Lopes", "Soares", "Fernandes", "Vieira", "Barbosa", "Menezes", "Nakamura"];
+const LAST_NAMES = ["Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira", "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Almeida", "Lopes", "Soares", "Fernandes", "Vieira", "Barbosa"];
 
 const CLIENT_PROFILES = [
   { profession: "Dono de Padaria", purpose: "Novo forno italiano & estoque", baseIncome: 9500, risk: "low", icon: "🥖" },
@@ -519,8 +526,7 @@ const CLIENT_PROFILES = [
   { profession: "Trader Autônomo", purpose: "Alavancagem em minicontratos", baseIncome: 12000, risk: "high", icon: "📈" },
   { profession: "Criador de Conteúdo", purpose: "Estúdio profissional de podcast", baseIncome: 25000, risk: "mid", icon: "🎙️" },
   { profession: "Apostador de Bet", purpose: "Recuperar banca após derrota", baseIncome: 4500, risk: "extreme", icon: "🎲" },
-  { profession: "Produtor de Grãos Agro", purpose: "Aquisição de fertilizantes", baseIncome: 75000, risk: "low", icon: "🌾" },
-  { profession: "Advogado Empresarial", purpose: "Reforma de escritório Faria Lima", baseIncome: 32000, risk: "low", icon: "⚖️" }
+  { profession: "Produtor de Grãos Agro", purpose: "Aquisição de fertilizantes", baseIncome: 75000, risk: "low", icon: "🌾" }
 ];
 
 const COLLATERAL_TYPES = [
@@ -541,16 +547,13 @@ function initGame() {
   renderAll();
 
   if (gameState.clientQueue.length === 0) {
-    for (let i = 0; i < 5; i++) {
-      generateClient();
-    }
+    for (let i = 0; i < 5; i++) generateClient();
   }
 
   updateSwipeCardView();
   updateClock();
   setInterval(updateClock, 1000);
 
-  // Auto-save a cada 15s
   setInterval(() => {
     saveGame(false);
   }, 15000);
@@ -558,22 +561,20 @@ function initGame() {
 
 function saveGame(showToastMsg = true) {
   try {
-    localStorage.setItem("zero_ao_bilhao_v10_save", JSON.stringify(gameState));
-    if (showToastMsg) {
-      showToast("💾 Jogo salvo com sucesso!", "toast-success");
-    }
-  } catch (e) {
-    console.error("Erro ao salvar:", e);
-  }
+    localStorage.setItem("zero_ao_bilhao_v10000_save", JSON.stringify(gameState));
+    if (showToastMsg) showToast("💾 Jogo salvo com sucesso!", "toast-success");
+  } catch (e) {}
 }
 
 function loadGame() {
   try {
-    const saved = localStorage.getItem("zero_ao_bilhao_v10_save");
+    const saved = localStorage.getItem("zero_ao_bilhao_v10000_save");
     if (saved) {
       const parsed = JSON.parse(saved);
       gameState = Object.assign({}, INITIAL_STATE, parsed);
       gameState.stats = Object.assign({}, INITIAL_STATE.stats, parsed.stats || {});
+      gameState.stocks = Object.assign({}, INITIAL_STATE.stocks, parsed.stocks || {});
+      gameState.maAcquisitions = Object.assign({}, INITIAL_STATE.maAcquisitions, parsed.maAcquisitions || {});
       gameState.executives = Object.assign({}, INITIAL_STATE.executives, parsed.executives || {});
       gameState.upgrades = Object.assign({}, INITIAL_STATE.upgrades, parsed.upgrades || {});
       gameState.activeCDBs = Object.assign({}, INITIAL_STATE.activeCDBs, parsed.activeCDBs || {});
@@ -582,31 +583,24 @@ function loadGame() {
       if (!Array.isArray(gameState.clientQueue)) gameState.clientQueue = [];
       if (!Array.isArray(gameState.netWorthHistory)) gameState.netWorthHistory = [50000];
 
-      // Aplica tema salvo
-      if (gameState.bankTheme) {
-        setTheme(gameState.bankTheme, false);
-      }
+      if (gameState.bankTheme) setTheme(gameState.bankTheme, false);
     }
-  } catch (e) {
-    console.error("Erro ao carregar:", e);
-  }
+  } catch (e) {}
 }
 
 function resetGame() {
   if (confirm("⚠️ Tem certeza que deseja reiniciar todo o império financeiro? O jogo voltará para o Dia 1 com R$ 50.000.")) {
-    localStorage.removeItem("zero_ao_bilhao_v10_save");
+    localStorage.removeItem("zero_ao_bilhao_v10000_save");
     gameState = JSON.parse(JSON.stringify(INITIAL_STATE));
-    for (let i = 0; i < 5; i++) {
-      generateClient();
-    }
+    for (let i = 0; i < 5; i++) generateClient();
     renderAll();
     updateSwipeCardView();
-    showToast("Novo banco fundado! Rumo ao R$ 1 Bilhão!", "toast-warning");
+    showToast("Novo banco fundado! Rumo a R$ 1 Bilhão!", "toast-warning");
   }
 }
 
 // =============================================================================
-// Cálculos Financeiros & Balanço
+// Cálculos Financeiros
 // =============================================================================
 function formatCurrency(val) {
   return new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val);
@@ -620,19 +614,25 @@ function calculateReceivables() {
   }, 0);
 }
 
+function calculateInvestments() {
+  let total = gameState.treasuryBalance || 0;
+  for (const s in gameState.stocks) {
+    total += (gameState.stocks[s].owned || 0) * gameState.stocks[s].price;
+  }
+  return total;
+}
+
 function calculateDebts() {
   let total = 0;
   for (const key in gameState.activeCDBs) {
     const cdb = CDB_CONFIG.find(c => c.id === key);
-    if (cdb) {
-      total += (gameState.activeCDBs[key] || 0) * cdb.amount;
-    }
+    if (cdb) total += (gameState.activeCDBs[key] || 0) * cdb.amount;
   }
   return total;
 }
 
 function calculateNetWorth() {
-  return gameState.cash + (gameState.treasuryBalance || 0) + calculateReceivables() - calculateDebts();
+  return gameState.cash + calculateInvestments() + calculateReceivables() - calculateDebts();
 }
 
 function calculateBasileia() {
@@ -646,15 +646,13 @@ function getBankTier() {
   const net = calculateNetWorth();
   let current = BANK_TIERS[0];
   for (const tier of BANK_TIERS) {
-    if (net >= tier.min) {
-      current = tier;
-    }
+    if (net >= tier.min) current = tier;
   }
   return current;
 }
 
 // =============================================================================
-// Gerador de Clientes (Propostas de Empréstimo)
+// Gerador de Clientes
 // =============================================================================
 function generateClient() {
   const profile = CLIENT_PROFILES[Math.floor(Math.random() * CLIENT_PROFILES.length)];
@@ -662,10 +660,7 @@ function generateClient() {
   const lastName = LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)];
 
   const net = Math.max(calculateNetWorth(), 50000);
-  let maxAmount = 25000;
-  if (gameState.upgrades.officePaulista) maxAmount = 90000;
-  if (gameState.upgrades.officeFariaLima) maxAmount = 600000;
-  if (gameState.upgrades.officeDigital) maxAmount = 8000000;
+  let maxAmount = 25000 * Math.pow(2.2, (gameState.hqTier || 1) - 1);
   if (gameState.executives.enzoCMO) maxAmount *= 1.5;
 
   const baseRange = Math.min(net * 0.45, maxAmount);
@@ -692,7 +687,6 @@ function generateClient() {
     }
   }
 
-  // Auto-auditado se tiver Diretor de Risco ou IA
   const autoAudited = !!(gameState.executives.faustoRisk || gameState.upgrades.aiScore);
 
   const client = {
@@ -722,7 +716,7 @@ function getCurrentClient() {
 }
 
 // =============================================================================
-// Deck de Swipe Interativo (Estilo Tinder / Reigns)
+// Deck de Swipe Interativo (Touch & Mouse)
 // =============================================================================
 let isDraggingCard = false;
 let startX = 0;
@@ -757,18 +751,13 @@ function setupSwipeDeck() {
       const opacity = Math.min(1, (deltaX - 25) / 75);
       stampApprove.style.opacity = opacity;
       stampReject.style.opacity = 0;
-      card.classList.add("swiping-right");
-      card.classList.remove("swiping-left");
     } else if (deltaX < -25) {
       const opacity = Math.min(1, (-deltaX - 25) / 75);
       stampReject.style.opacity = opacity;
       stampApprove.style.opacity = 0;
-      card.classList.add("swiping-left");
-      card.classList.remove("swiping-right");
     } else {
       stampApprove.style.opacity = 0;
       stampReject.style.opacity = 0;
-      card.classList.remove("swiping-right", "swiping-left");
     }
   };
 
@@ -779,10 +768,8 @@ function setupSwipeDeck() {
 
     stampApprove.style.opacity = 0;
     stampReject.style.opacity = 0;
-    card.classList.remove("swiping-right", "swiping-left");
 
     if (deltaX > SWIPE_THRESHOLD) {
-      // Swipe Right -> APROVAR
       card.style.transition = "transform 0.25s ease-out";
       card.style.transform = "translate3d(400px, 0, 0) rotate(30deg)";
       sounds.playWoosh();
@@ -791,7 +778,6 @@ function setupSwipeDeck() {
         resetCardTransform();
       }, 200);
     } else if (deltaX < -SWIPE_THRESHOLD) {
-      // Swipe Left -> RECUSAR
       card.style.transition = "transform 0.25s ease-out";
       card.style.transform = "translate3d(-400px, 0, 0) rotate(-30deg)";
       sounds.playWoosh();
@@ -800,30 +786,24 @@ function setupSwipeDeck() {
         resetCardTransform();
       }, 200);
     } else {
-      // Retorna ao centro
       card.style.transition = "transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
       card.style.transform = "translate3d(0, 0, 0) rotate(0deg)";
     }
   };
 
-  // Mouse Listeners
   card.addEventListener("mousedown", (e) => {
-    // Ignora clique em inputs ou botões dentro do card
     if (e.target.tagName === "INPUT" || e.target.tagName === "BUTTON") return;
     onStart(e.clientX);
   });
   window.addEventListener("mousemove", (e) => onMove(e.clientX));
   window.addEventListener("mouseup", onEnd);
 
-  // Touch Listeners (Mobile Nativo)
   card.addEventListener("touchstart", (e) => {
     if (e.target.tagName === "INPUT" || e.target.tagName === "BUTTON") return;
     onStart(e.touches[0].clientX);
   }, { passive: true });
   window.addEventListener("touchmove", (e) => {
-    if (isDraggingCard && e.touches[0]) {
-      onMove(e.touches[0].clientX);
-    }
+    if (isDraggingCard && e.touches[0]) onMove(e.touches[0].clientX);
   }, { passive: true });
   window.addEventListener("touchend", onEnd);
 }
@@ -839,7 +819,6 @@ function resetCardTransform() {
   }, 30);
 }
 
-// Render do Card Ativo do Deck
 function updateSwipeCardView() {
   const container = document.getElementById("active-swipe-card");
   const client = getCurrentClient();
@@ -849,7 +828,7 @@ function updateSwipeCardView() {
       <div class="empty-state-simple">
         <div style="font-size: 32px; margin-bottom: 8px;">⏳</div>
         <h3>Mesa Limpa por Enquanto!</h3>
-        <p>Acelere o tempo ou avance 1 Dia para receber novas propostas de tomadores de crédito.</p>
+        <p>Acelere o tempo ou avance 1 Dia para receber novas solicitações de crédito.</p>
       </div>
     `;
     return;
@@ -923,7 +902,7 @@ function updateSwipeCardView() {
 }
 
 // =============================================================================
-// Ações da Mesa (Aprovar / Recusar / Contraproposta / Dossiê)
+// Decisões na Mesa (Aprovar / Recusar / Laser Scanner)
 // =============================================================================
 function approveCurrentClient() {
   const client = getCurrentClient();
@@ -965,6 +944,7 @@ function approveCurrentClient() {
 
   sounds.playCash();
   confetti.fire(35);
+  spawnFlyingMoney();
   showToast(`🎉 Empréstimo de R$ ${formatCurrency(client.requestedAmount)} aprovado!`, "toast-success");
 
   gameState.clientQueue.shift();
@@ -985,11 +965,27 @@ function rejectCurrentClient() {
   updateInboxBadge();
 }
 
+function openDossierWithLaser() {
+  const client = getCurrentClient();
+  if (!client) return;
+
+  const laser = document.getElementById("scanner-laser-bar");
+  if (laser) {
+    laser.classList.remove("hidden");
+    sounds.playLaser();
+    setTimeout(() => {
+      laser.classList.add("hidden");
+      openDossierModal();
+    }, 900);
+  } else {
+    openDossierModal();
+  }
+}
+
 function openDossierModal() {
   const client = getCurrentClient();
   if (!client) return;
 
-  // Custo de consulta se não for auto-auditado
   if (!client.audited) {
     const AUDIT_COST = 200;
     if (gameState.cash < AUDIT_COST) {
@@ -1006,42 +1002,19 @@ function openDossierModal() {
   document.getElementById("dossier-client-name").textContent = `Dossiê: ${client.name}`;
   const body = document.getElementById("dossier-body");
 
-  // Risco calculado
-  let riskText = "Baixo Risco (Excelente Pagador)";
   let riskClass = "text-emerald";
-  if (client.trueScore < 450) {
-    riskText = "Altíssimo Risco (Histórico de Inadimplência)";
-    riskClass = "text-rose";
-  } else if (client.trueScore < 680) {
-    riskText = "Médio Risco (Risco Moderado)";
-    riskClass = "text-gold";
-  }
+  if (client.trueScore < 450) riskClass = "text-rose";
+  else if (client.trueScore < 680) riskClass = "text-gold";
 
   body.innerHTML = `
-    <div class="dossier-row">
-      <span>Profissão / Ocupação:</span>
-      <strong>${client.profession}</strong>
-    </div>
-    <div class="dossier-row">
-      <span>Renda Mensal Declarada:</span>
-      <strong>R$ ${formatCurrency(client.declaredIncome)}</strong>
-    </div>
-    <div class="dossier-row">
-      <span>Renda Real Comprovada (IRPF):</span>
-      <strong class="text-cyan">R$ ${formatCurrency(client.trueIncome)}</strong>
-    </div>
-    <div class="dossier-row">
-      <span>Score Serasa Real:</span>
-      <strong class="${riskClass}">${client.trueScore} pontos</strong>
-    </div>
-    <div class="dossier-row">
-      <span>Garantia Ofertada:</span>
-      <strong class="text-gold">${client.collateral.name}</strong>
-    </div>
-    <div class="dossier-row">
-      <span>Diagnóstico Antifraude:</span>
+    <div class="dossier-row"><span>Profissão:</span><strong>${client.profession}</strong></div>
+    <div class="dossier-row"><span>Renda Mensal Declarada:</span><strong>R$ ${formatCurrency(client.declaredIncome)}</strong></div>
+    <div class="dossier-row"><span>Renda Real Comprovada (IRPF):</span><strong class="text-cyan">R$ ${formatCurrency(client.trueIncome)}</strong></div>
+    <div class="dossier-row"><span>Score Serasa Real:</span><strong class="${riskClass}">${client.trueScore} pontos</strong></div>
+    <div class="dossier-row"><span>Garantia Ofertada:</span><strong class="text-gold">${client.collateral.name}</strong></div>
+    <div class="dossier-row"><span>Diagnóstico Antifraude:</span>
       <strong class="${client.isFraud ? 'text-rose' : 'text-emerald'}">
-        ${client.isFraud ? "🚨 ALERTA MÁXIMO: TENTATIVA DE GOLPE IDENTIFICADA!" : "✅ Identidade e Biometria Legítimas"}
+        ${client.isFraud ? "🚨 GOLPE / FRAUDADOR DE IDENTIDADE DETECTADO!" : "✅ Biometria Facial e CPF 100% Autênticos"}
       </strong>
     </div>
     <div style="margin-top: 14px;">
@@ -1057,9 +1030,8 @@ function makeCounterOffer() {
   const client = getCurrentClient();
   if (!client) return;
 
-  // Exige garantia melhor ou reduz valor
   if (client.collateral.recoveryRate === 0) {
-    client.collateral = COLLATERAL_TYPES[1]; // Veículo
+    client.collateral = COLLATERAL_TYPES[1];
     showToast("🤝 Contraproposta aceita! O cliente ofereceu um Veículo como garantia.", "toast-success");
   } else {
     client.requestedAmount = Math.round(client.requestedAmount * 0.8);
@@ -1072,7 +1044,249 @@ function makeCounterOffer() {
 }
 
 // =============================================================================
-// WhatsApp Chat de Cobrança (Mini-Game Interativo de Negociação)
+// Roleta da Faria Lima (Giro Diário de Investidores)
+// =============================================================================
+let isSpinningWheel = false;
+
+function spinLuckyWheel() {
+  if (isSpinningWheel) return;
+  isSpinningWheel = true;
+
+  const disc = document.getElementById("wheel-disc");
+  const randomDegrees = Math.floor(Math.random() * 360) + 1440; // 4 voltas completas
+  disc.style.transform = `rotate(${randomDegrees}deg)`;
+
+  let clicks = 0;
+  const clickInterval = setInterval(() => {
+    sounds.playWheelClick();
+    clicks++;
+    if (clicks > 25) clearInterval(clickInterval);
+  }, 120);
+
+  setTimeout(() => {
+    isSpinningWheel = false;
+    const finalSector = Math.floor((randomDegrees % 360) / 60);
+    const rewards = [
+      { text: "💰 Aporte de R$ 50.000 de Investidor Anjo!", action: () => { gameState.cash += 50000; } },
+      { text: "📈 Taxa Selic subiu +1.0%!", action: () => { gameState.selic += 1.0; } },
+      { text: "💵 Resgate Rápido de R$ 20.000!", action: () => { gameState.cash += 20000; } },
+      { text: "🔍 Auditoria Grátis em toda a fila de clientes!", action: () => { gameState.clientQueue.forEach(c => c.audited = true); } },
+      { text: "💎 Aporte Institucional de R$ 100.000!", action: () => { gameState.cash += 100000; } },
+      { text: "⭐ Reputação do Banco subiu +15%!", action: () => { gameState.reputation = Math.min(100, gameState.reputation + 15); } }
+    ];
+
+    const reward = rewards[finalSector] || rewards[0];
+    reward.action();
+
+    sounds.playFanfare();
+    confetti.fire(60);
+    spawnFlyingMoney();
+    showToast(reward.text, "toast-success");
+    closeModal('wheel-modal');
+    renderBalances();
+    updateSwipeCardView();
+  }, 3600);
+}
+
+// =============================================================================
+// Cartões de Crédito Black (Lançamento & Receita Rotativa)
+// =============================================================================
+function issueBankCards() {
+  const COST = 15000;
+  if (gameState.cash < COST) {
+    showToast("Caixa insuficiente para lote de cartões (R$ 15.000)!", "toast-danger");
+    return;
+  }
+
+  gameState.cash -= COST;
+  gameState.cardsIssued = (gameState.cardsIssued || 0) + 50;
+  gameState.cardRevenueMonthly = (gameState.cardsIssued * 120); // R$ 120 por cartão/mês
+
+  sounds.playCash();
+  confetti.fire(30);
+  showToast(`💳 50 Cartões Black emitidos! +R$ ${formatCurrency(gameState.cardRevenueMonthly)}/mês de rotativo!`, "toast-success");
+
+  renderBalances();
+  renderCardsSection();
+}
+
+function renderCardsSection() {
+  const issuedEl = document.getElementById("cards-issued-count");
+  const profitEl = document.getElementById("cards-profit-display");
+  if (issuedEl) issuedEl.textContent = gameState.cardsIssued || 0;
+  if (profitEl) profitEl.textContent = `R$ ${formatCurrency(gameState.cardRevenueMonthly || 0)}`;
+}
+
+// =============================================================================
+// Bolsa de Valores B3 & Cripto
+// =============================================================================
+function buyStock(stockKey, amount = 100) {
+  const stock = gameState.stocks[stockKey];
+  if (!stock) return;
+  const cost = stock.price * amount;
+
+  if (gameState.cash < cost) {
+    showToast("Caixa insuficiente para comprar ações!", "toast-danger");
+    return;
+  }
+
+  gameState.cash -= cost;
+  stock.owned = (stock.owned || 0) + amount;
+  sounds.playCash();
+  showToast(`📈 Compra de ${amount} ${stock.name} realizada!`, "toast-success");
+
+  renderBalances();
+  renderStocks();
+}
+
+function sellStock(stockKey) {
+  const stock = gameState.stocks[stockKey];
+  if (!stock || (stock.owned || 0) <= 0) {
+    showToast("Você não possui ações deste ativo!", "toast-warning");
+    return;
+  }
+
+  const revenue = stock.price * stock.owned;
+  gameState.cash += revenue;
+  showToast(`📉 Venda de ${stock.owned} ${stock.name} por R$ ${formatCurrency(revenue)}!`, "toast-success");
+  stock.owned = 0;
+  sounds.playCash();
+
+  renderBalances();
+  renderStocks();
+}
+
+function updateStockPrices() {
+  for (const s in gameState.stocks) {
+    const stock = gameState.stocks[s];
+    const delta = (Math.random() * 8 - 3.8); // oscilação diária
+    stock.delta = Math.round(delta * 10) / 10;
+    stock.price = Math.max(1, Math.round((stock.price * (1 + delta / 100)) * 100) / 100);
+  }
+}
+
+function renderStocks() {
+  const container = document.getElementById("stocks-container");
+  if (!container) return;
+
+  container.innerHTML = Object.keys(gameState.stocks).map(key => {
+    const stock = gameState.stocks[key];
+    const isUp = stock.delta >= 0;
+    return `
+      <div class="stock-card">
+        <div class="stock-header">
+          <span class="stock-ticker">${stock.name}</span>
+          <span class="stock-badge-var ${isUp ? 'var-up' : 'var-down'}">${isUp ? '+' : ''}${stock.delta}%</span>
+        </div>
+        <div class="stock-price">R$ ${formatCurrency(stock.price)}</div>
+        <div class="stock-owned">Em Carteira: ${stock.owned || 0} cotas</div>
+        <div class="stock-actions-row">
+          <button class="btn-stock" onclick="buyStock('${key}', 100)">+100</button>
+          <button class="btn-stock" onclick="sellStock('${key}')">Vender</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// =============================================================================
+// Sede 3D Evolutiva & M&A (Fusões & Aquisições)
+// =============================================================================
+function upgradeHQ() {
+  const currentTier = gameState.hqTier || 1;
+  const nextConfig = HQ_TIERS.find(h => h.level === currentTier + 1);
+
+  if (!nextConfig) {
+    showToast("Sede no nível máximo absoluto (Estação Orbital)! 🛰️", "toast-warning");
+    return;
+  }
+
+  if (gameState.cash < nextConfig.cost) {
+    sounds.playReject();
+    showToast(`Caixa insuficiente para evoluir sede (R$ ${formatCurrency(nextConfig.cost)})!`, "toast-danger");
+    return;
+  }
+
+  gameState.cash -= nextConfig.cost;
+  gameState.hqTier = nextConfig.level;
+  sounds.playFanfare();
+  confetti.fire(60);
+  showToast(`🏛️ Sede evoluída para: ${nextConfig.title}!`, "toast-success");
+
+  renderBalances();
+  renderHQ();
+}
+
+function renderHQ() {
+  const current = HQ_TIERS.find(h => h.level === (gameState.hqTier || 1)) || HQ_TIERS[0];
+  const next = HQ_TIERS.find(h => h.level === (gameState.hqTier || 1) + 1);
+
+  const iconEl = document.getElementById("hq-building-icon");
+  const signEl = document.getElementById("hq-neon-sign");
+  const titleEl = document.getElementById("hq-tier-title");
+  const btnEl = document.getElementById("btn-upgrade-hq");
+
+  if (iconEl) iconEl.textContent = current.icon;
+  if (signEl) signEl.textContent = current.sign;
+  if (titleEl) titleEl.textContent = current.title;
+
+  if (btnEl) {
+    if (next) {
+      btnEl.textContent = `Evoluir Sede (R$ ${formatCurrency(next.cost)})`;
+      btnEl.disabled = false;
+    } else {
+      btnEl.textContent = "Nível Máximo 👑";
+      btnEl.disabled = true;
+    }
+  }
+}
+
+function acquireCompany(maId) {
+  const item = MA_CONFIG.find(m => m.id === maId);
+  if (!item || gameState.maAcquisitions[maId]) return;
+
+  if (gameState.cash < item.cost) {
+    sounds.playReject();
+    showToast("Caixa insuficiente para esta aquisição!", "toast-danger");
+    return;
+  }
+
+  gameState.cash -= item.cost;
+  gameState.maAcquisitions[maId] = true;
+  gameState.stats.maCount++;
+
+  sounds.playFanfare();
+  confetti.fire(50);
+  showToast(`🤝 Aquisição concluída: ${item.name}! +R$ ${formatCurrency(item.revenue)}/mês!`, "toast-success");
+
+  renderBalances();
+  renderMA();
+}
+
+function renderMA() {
+  const container = document.getElementById("ma-list-container");
+  if (!container) return;
+
+  container.innerHTML = MA_CONFIG.map(m => {
+    const isAcquired = gameState.maAcquisitions[m.id];
+    return `
+      <div class="ma-card ${isAcquired ? 'acquired' : ''}">
+        <div>
+          <div class="ma-title">${m.name}</div>
+          <div class="ma-desc">${m.desc}</div>
+        </div>
+        <div>
+          ${isAcquired ? `<span class="badge-purchased">✓ Adquirido</span>` : `
+            <button class="btn-buy-upgrade" onclick="acquireCompany('${m.id}')">R$ ${formatCurrency(m.cost)}</button>
+          `}
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// =============================================================================
+// Chat WhatsApp & Leilão Judicial
 // =============================================================================
 let activeNegotiatingLoan = null;
 
@@ -1094,15 +1308,9 @@ function openCollectionChat(loanId) {
   `;
 
   options.innerHTML = `
-    <button class="btn-chat-reply" onclick="replyChat('friendly')">
-      🕊️ "Podemos perdoar os juros de mora se você pagar a parcela hoje."
-    </button>
-    <button class="btn-chat-reply" onclick="replyChat('firm')">
-      ⚖️ "Se não pagar em 24h, seu CPF irá ao SPC e penhoraremos seus bens!"
-    </button>
-    <button class="btn-chat-reply" onclick="replyChat('discount')">
-      🤝 "Pague metade do valor à vista e refinanciamos o restante."
-    </button>
+    <button class="btn-chat-reply" onclick="replyChat('friendly')">🕊️ "Perdoamos a mora se pagar hoje."</button>
+    <button class="btn-chat-reply" onclick="replyChat('firm')">⚖️ "Em 24h seu nome vai ao SPC e penhoramos seus bens!"</button>
+    <button class="btn-chat-reply" onclick="replyChat('discount')">🤝 "Pague metade à vista e parcelamos o resto."</button>
   `;
 
   openModal('chat-modal');
@@ -1117,40 +1325,30 @@ function replyChat(type) {
   let replyText = "";
   let debtorReaction = "";
   let isSettled = false;
-
-  // Bônus se tiver o cobrador Brutus
   const collectorBonus = gameState.executives.brutusCollector ? 0.35 : 0;
 
   if (type === 'friendly') {
-    replyText = "Podemos perdoar os juros de mora se você pagar a parcela hoje.";
+    replyText = "Perdoamos a mora se pagar hoje.";
     if (Math.random() < 0.65 + collectorBonus) {
-      debtorReaction = "Muito obrigado pela compreensão! Acabei de fazer o Pix da parcela.";
+      debtorReaction = "Muito obrigado! Acabei de fazer o Pix da parcela.";
       isSettled = true;
-    } else {
-      debtorReaction = "Mesmo sem os juros ainda está pesado... Preciso de mais tempo.";
-    }
+    } else debtorReaction = "Ainda está pesado... Preciso de mais tempo.";
   } else if (type === 'firm') {
-    replyText = "Se não pagar em 24h, seu CPF irá ao SPC e penhoraremos seus bens!";
+    replyText = "Em 24h seu nome vai ao SPC e penhoramos seus bens!";
     if (Math.random() < 0.50 + collectorBonus) {
-      debtorReaction = "Calma, pelo amor de Deus! Não quero meu nome sujo, já fiz a transferência!";
+      debtorReaction = "Pelo amor de Deus! Já fiz a transferência para não sujar o nome!";
       isSettled = true;
-    } else {
-      debtorReaction = "Pode colocar na justiça então! Não tenho como pagar agora.";
-    }
+    } else debtorReaction = "Pode colocar na justiça então! Não tenho o dinheiro.";
   } else {
-    replyText = "Pague metade do valor à vista e refinanciamos o restante.";
-    debtorReaction = "Fechado! Paguei metade agora e assumo o compromisso do restante.";
+    replyText = "Pague metade à vista e parcelamos o resto.";
+    debtorReaction = "Perfeito! Paguei metade agora e assumo o resto.";
     isSettled = true;
   }
 
-  container.innerHTML += `
-    <div class="chat-bubble banker">${replyText}</div>
-  `;
+  container.innerHTML += `<div class="chat-bubble banker">${replyText}</div>`;
 
   setTimeout(() => {
-    container.innerHTML += `
-      <div class="chat-bubble debtor">${debtorReaction}</div>
-    `;
+    container.innerHTML += `<div class="chat-bubble debtor">${debtorReaction}</div>`;
     container.scrollTop = container.scrollHeight;
 
     if (isSettled) {
@@ -1162,19 +1360,12 @@ function replyChat(type) {
       confetti.fire(25);
       renderBalances();
       renderLoansList();
-    } else {
-      sounds.playReject();
-    }
+    } else sounds.playReject();
 
-    options.innerHTML = `
-      <button class="btn-primary-action" onclick="closeModal('chat-modal')">Encerrar Conversa</button>
-    `;
+    options.innerHTML = `<button class="btn-primary-action" onclick="closeModal('chat-modal')">Encerrar Conversa</button>`;
   }, 600);
 }
 
-// =============================================================================
-// Leilão Judicial (Mini-Game com Martelo do Juiz)
-// =============================================================================
 let activeAuctionLoan = null;
 let currentAuctionBid = 0;
 let auctionInterval = null;
@@ -1190,11 +1381,10 @@ function startJudicialAuction(loanId) {
   document.getElementById("auction-item-title").textContent = `Penhora: ${loan.collateral.name} (${loan.borrowerName})`;
   document.getElementById("auction-current-bid").textContent = `R$ ${formatCurrency(currentAuctionBid)}`;
   const log = document.getElementById("auction-log");
-  log.innerHTML = `<div class="bid-entry"><span>Leilão aberto com lance inicial</span><strong>R$ ${formatCurrency(currentAuctionBid)}</strong></div>`;
+  log.innerHTML = `<div class="bid-entry"><span>Leilão aberto</span><strong>R$ ${formatCurrency(currentAuctionBid)}</strong></div>`;
 
   openModal('auction-modal');
 
-  // Simulação de lances em tempo real
   let timerVal = 100;
   const timerFill = document.getElementById("auction-timer-fill");
 
@@ -1204,25 +1394,20 @@ function startJudicialAuction(loanId) {
     timerVal -= 5;
     if (timerFill) timerFill.style.width = `${timerVal}%`;
 
-    // Chance de novo lance
     if (Math.random() < 0.45 && timerVal > 15) {
       const increment = Math.round((Math.random() * remainingDebt * 0.2 + 500) / 100) * 100;
       currentAuctionBid += increment;
       sounds.playStamp();
       document.getElementById("auction-current-bid").textContent = `R$ ${formatCurrency(currentAuctionBid)}`;
-      log.innerHTML += `<div class="bid-entry"><span>Licitante #${Math.floor(Math.random() * 800 + 100)} ofertou</span><strong class="text-gold">R$ ${formatCurrency(currentAuctionBid)}</strong></div>`;
+      log.innerHTML += `<div class="bid-entry"><span>Licitante #${Math.floor(Math.random() * 800 + 100)}</span><strong class="text-gold">R$ ${formatCurrency(currentAuctionBid)}</strong></div>`;
       log.scrollTop = log.scrollHeight;
     }
 
-    if (timerVal <= 0) {
-      concludeAuction();
-    }
+    if (timerVal <= 0) concludeAuction();
   }, 400);
 
   const btnHammer = document.getElementById("btn-hammer-auction");
-  if (btnHammer) {
-    btnHammer.onclick = () => concludeAuction();
-  }
+  if (btnHammer) btnHammer.onclick = () => concludeAuction();
 }
 
 function concludeAuction() {
@@ -1230,12 +1415,10 @@ function concludeAuction() {
     clearInterval(auctionInterval);
     auctionInterval = null;
   }
-
   if (!activeAuctionLoan) return;
 
   sounds.playGavel();
   confetti.fire(45);
-
   gameState.cash += currentAuctionBid;
   activeAuctionLoan.status = "paid";
   gameState.stats.seizuresCount++;
@@ -1243,25 +1426,22 @@ function concludeAuction() {
 
   showToast(`🔨 BATEU O MARTELO! Bem arrematado por R$ ${formatCurrency(currentAuctionBid)}!`, "toast-success");
   closeModal('auction-modal');
-
   renderBalances();
   renderLoansList();
 }
 
 // =============================================================================
-// Tesouro Selic 100% CDI (Reserva Segura)
+// Tesouro Selic
 // =============================================================================
 function depositTreasury(amount = 10000) {
   if (gameState.cash < amount) {
     showToast("Caixa insuficiente para aplicar no Tesouro!", "toast-danger");
     return;
   }
-
   gameState.cash -= amount;
   gameState.treasuryBalance = (gameState.treasuryBalance || 0) + amount;
   sounds.playCash();
-  showToast(`🏛️ R$ ${formatCurrency(amount)} aplicados com segurança no Tesouro Selic!`, "toast-success");
-
+  showToast(`🏛️ R$ ${formatCurrency(amount)} aplicados no Tesouro Selic!`, "toast-success");
   renderBalances();
   renderTreasury();
 }
@@ -1269,21 +1449,19 @@ function depositTreasury(amount = 10000) {
 function withdrawTreasury() {
   const bal = gameState.treasuryBalance || 0;
   if (bal <= 0) {
-    showToast("Nenhum saldo aplicado no Tesouro Selic!", "toast-warning");
+    showToast("Nenhum saldo no Tesouro Selic!", "toast-warning");
     return;
   }
-
   gameState.cash += bal;
   gameState.treasuryBalance = 0;
   sounds.playCash();
-  showToast(`💰 R$ ${formatCurrency(bal)} resgatados do Tesouro Selic para o Caixa!`, "toast-success");
-
+  showToast(`💰 R$ ${formatCurrency(bal)} resgatados para o Caixa!`, "toast-success");
   renderBalances();
   renderTreasury();
 }
 
 // =============================================================================
-// Avanço de Tempo (Turno Diário & Macroeconomia)
+// Turno Diário
 // =============================================================================
 function passOneDay() {
   gameState.day++;
@@ -1297,22 +1475,38 @@ function passOneDay() {
   let paymentsReceived = 0;
   let newDefaults = 0;
 
-  // Rendimento diário do Tesouro Selic
+  // Tesouro Selic
   if (gameState.treasuryBalance > 0) {
     let monthlyRate = (gameState.selic / 12);
     if (gameState.executives.cfoHelena) monthlyRate += 0.3;
-    const dailyTreasuryProfit = (gameState.treasuryBalance * (monthlyRate / 100)) / 30;
-    gameState.treasuryBalance += dailyTreasuryProfit;
+    const dailyProfit = (gameState.treasuryBalance * (monthlyRate / 100)) / 30;
+    gameState.treasuryBalance += dailyProfit;
   }
 
-  // Cobrança dos empréstimos ativos
+  // Receita M&A
+  for (const m in gameState.maAcquisitions) {
+    if (gameState.maAcquisitions[m]) {
+      const cfg = MA_CONFIG.find(c => c.id === m);
+      if (cfg) dailyCashChange += (cfg.revenue / 30);
+    }
+  }
+
+  // Receita de Cartões Black
+  if (gameState.cardsIssued > 0) {
+    const cardDaily = (gameState.cardRevenueMonthly / 30);
+    dailyCashChange += cardDaily;
+    gameState.stats.cardsEarned += cardDaily;
+  }
+
+  // Ações da B3 oscilam
+  updateStockPrices();
+
+  // Empréstimos
   for (let i = gameState.activeLoans.length - 1; i >= 0; i--) {
     const loan = gameState.activeLoans[i];
     if (loan.status === "paid" || loan.status === "defaulted") continue;
 
-    const paymentDueToday = Math.random() < 0.28;
-
-    if (paymentDueToday) {
+    if (Math.random() < 0.28) {
       let defaultChance = 0.05;
       if (loan.trueScore < 400) defaultChance += 0.35;
       else if (loan.trueScore < 600) defaultChance += 0.15;
@@ -1325,9 +1519,7 @@ function passOneDay() {
           loan.status = "defaulted";
           newDefaults++;
           gameState.stats.totalDefaultLost += (loan.totalInstallments - loan.paidInstallments) * loan.installmentValue;
-        } else {
-          loan.status = "late";
-        }
+        } else loan.status = "late";
       } else {
         loan.paidInstallments++;
         loan.daysDelinquent = 0;
@@ -1339,57 +1531,47 @@ function passOneDay() {
         const interestPart = Math.max(0, loan.installmentValue - principalPart);
         gameState.stats.totalInterestEarned += interestPart;
 
-        if (loan.paidInstallments >= loan.totalInstallments) {
-          loan.status = "paid";
-        }
+        if (loan.paidInstallments >= loan.totalInstallments) loan.status = "paid";
       }
     }
   }
 
-  // Custo dos CDBs emitidos
+  // Custos CDBs
   let dailyCdbCost = 0;
   for (const key in gameState.activeCDBs) {
     const count = gameState.activeCDBs[key] || 0;
     const cdb = CDB_CONFIG.find(c => c.id === key);
     if (cdb && count > 0) {
-      const monthlyCost = (cdb.amount * count) * (cdb.costRate / 100);
-      dailyCdbCost += (monthlyCost / 30);
+      dailyCdbCost += ((cdb.amount * count) * (cdb.costRate / 100)) / 30;
     }
   }
 
   dailyCashChange -= dailyCdbCost;
   gameState.cash += dailyCashChange;
 
-  // Atualiza histórico do Sparkline
   const currentNet = calculateNetWorth();
   gameState.netWorthHistory.push(currentNet);
-  if (gameState.netWorthHistory.length > 25) {
-    gameState.netWorthHistory.shift();
-  }
+  if (gameState.netWorthHistory.length > 25) gameState.netWorthHistory.shift();
 
-  // Gera novos clientes
-  let newClientsToSpawn = 1;
+  // Spawna novos clientes
+  let newClientsToSpawn = 1 + (gameState.hqTier || 1);
   if (gameState.upgrades.trafficAds) newClientsToSpawn += 3;
   if (gameState.executives.enzoCMO) newClientsToSpawn += 4;
   if (gameState.clientQueue.length < 9) {
-    for (let c = 0; c < newClientsToSpawn; c++) {
-      generateClient();
-    }
+    for (let c = 0; c < newClientsToSpawn; c++) generateClient();
   }
 
-  // Eventos Aleatórios
   checkRandomEvents();
-
-  if (gameState.cash < 0) {
-    handleInsolvency();
-  }
-
+  if (gameState.cash < 0) handleInsolvency();
   checkAchievements();
 
-  if (paymentsReceived > 0) sounds.playCash();
+  if (paymentsReceived > 0) {
+    sounds.playCash();
+    spawnFlyingMoney();
+  }
   if (newDefaults > 0) {
     sounds.playReject();
-    showToast(`⚠️ ${newDefaults} cliente(s) entraram em calote na carteira!`, "toast-danger");
+    showToast(`⚠️ ${newDefaults} cliente(s) entraram em calote!`, "toast-danger");
   }
 
   renderAll();
@@ -1399,45 +1581,17 @@ function passOneDay() {
 function processMonthlyEvents() {
   const deltaSelic = (Math.random() * 0.5 - 0.25);
   gameState.selic = Math.max(8.0, Math.min(16.5, Math.round((gameState.selic + deltaSelic) * 100) / 100));
-  showToast(`📅 Novo mês iniciado! Taxa Selic ajustada para ${gameState.selic}%`, "toast-warning");
+  showToast(`📅 Novo mês iniciado! Selic ajustada para ${gameState.selic}%`, "toast-warning");
 }
 
 function checkRandomEvents() {
   if (Math.random() > 0.08) return;
-
   const events = [
-    {
-      text: "📈 COPOM eleva taxa Selic! Mais investidores correm para seus CDBs.",
-      action: () => {
-        gameState.selic += 0.5;
-        gameState.reputation = Math.min(100, gameState.reputation + 2);
-      }
-    },
-    {
-      text: "💥 Boom na construção civil! Valor de garantias imobiliárias sobe 20%.",
-      action: () => {
-        gameState.activeLoans.forEach(l => {
-          if (l.collateral && l.collateral.name.includes("Imóvel")) {
-            l.collateral.recoveryRate *= 1.2;
-          }
-        });
-      }
-    },
-    {
-      text: "🏛️ Auditoria surpresa do Banco Central. Parabéns, conformidade nota 10!",
-      action: () => {
-        gameState.reputation = Math.min(100, gameState.reputation + 5);
-      }
-    },
-    {
-      text: "🗞️ Matéria de capa no Valor Econômico elege seu banco a fintech do ano!",
-      action: () => {
-        gameState.reputation = Math.min(100, gameState.reputation + 8);
-        confetti.fire(30);
-      }
-    }
+    { text: "📈 COPOM eleva taxa Selic! Mais investidores correm para seus CDBs.", action: () => { gameState.selic += 0.5; gameState.reputation = Math.min(100, gameState.reputation + 2); } },
+    { text: "💥 Boom na construção civil! Valor de garantias imobiliárias sobe 20%.", action: () => { gameState.activeLoans.forEach(l => { if (l.collateral && l.collateral.name.includes("Imóvel")) l.collateral.recoveryRate *= 1.2; }); } },
+    { text: "🏛️ Auditoria surpresa do Banco Central. Conformidade nota 10!", action: () => { gameState.reputation = Math.min(100, gameState.reputation + 5); } },
+    { text: "🗞️ Forbes Brasil destaca seu banco como a fintech do ano!", action: () => { gameState.reputation = Math.min(100, gameState.reputation + 8); confetti.fire(30); } }
   ];
-
   const chosen = events[Math.floor(Math.random() * events.length)];
   setNewsTicker(chosen.text);
   chosen.action();
@@ -1451,64 +1605,46 @@ function handleInsolvency() {
   gameState.activeCDBs.cdbDiario = (gameState.activeCDBs.cdbDiario || 0) + Math.ceil(bailoutAmount / 30000);
 
   sounds.playReject();
-  showToast("🚨 RESGATE DO BACEN! Seu caixa zerou. Injeção de liquidez com juros de socorro.", "toast-danger");
+  showToast("🚨 RESGATE DO BACEN! Caixa zerou. Injeção de liquidez emergencial.", "toast-danger");
 }
 
 // =============================================================================
-// Contratação de Executivos & Upgrades
+// Contratações & CDBs
 // =============================================================================
 function hireExecutive(execId) {
   const exec = EXECUTIVES_CONFIG.find(e => e.id === execId);
-  if (!exec) return;
-
-  if (gameState.executives[execId]) {
-    showToast("Executivo já contratado!", "toast-warning");
-    return;
-  }
+  if (!exec || gameState.executives[execId]) return;
 
   if (gameState.cash < exec.cost) {
     sounds.playReject();
-    showToast("Caixa insuficiente para contratar este executivo!", "toast-danger");
+    showToast("Caixa insuficiente!", "toast-danger");
     return;
   }
 
   gameState.cash -= exec.cost;
   gameState.executives[execId] = true;
-
   sounds.playFanfare();
   confetti.fire(30);
-  showToast(`🎉 ${exec.name} assumiu como ${exec.role}!`, "toast-success");
-
+  showToast(`🎉 ${exec.name} contratado como ${exec.role}!`, "toast-success");
   renderBalances();
   renderExecutives();
 }
 
 function buyUpgrade(upgradeId) {
   const upgrade = UPGRADES_CONFIG.find(u => u.id === upgradeId);
-  if (!upgrade) return;
-
-  if (gameState.upgrades[upgradeId]) {
-    showToast("Este upgrade já foi adquirido!", "toast-warning");
-    return;
-  }
+  if (!upgrade || gameState.upgrades[upgradeId]) return;
 
   if (gameState.cash < upgrade.cost) {
     sounds.playReject();
-    showToast("Caixa insuficiente para comprar este upgrade!", "toast-danger");
+    showToast("Caixa insuficiente!", "toast-danger");
     return;
   }
 
   gameState.cash -= upgrade.cost;
   gameState.upgrades[upgradeId] = true;
-
   sounds.playFanfare();
   confetti.fire(30);
-  showToast(`🎉 Upgrade ${upgrade.title} ativado com sucesso!`, "toast-success");
-
-  if (upgradeId === "officePaulista") {
-    gameState.reputation = Math.max(gameState.reputation, 92);
-  }
-
+  showToast(`🎉 Upgrade ${upgrade.title} ativado!`, "toast-success");
   renderBalances();
   renderUpgrades();
 }
@@ -1518,19 +1654,17 @@ function issueCDB(cdbId) {
   if (!cdb) return;
 
   const currentCount = gameState.activeCDBs[cdbId] || 0;
-  const maxLimit = gameState.upgrades.soccerSponsor ? 25 : 6;
+  const maxLimit = gameState.upgrades.soccerSponsor ? 30 : 8;
 
   if (currentCount >= maxLimit) {
-    showToast(`Limite máximo atingido (${maxLimit} títulos)!`, "toast-warning");
+    showToast(`Limite máximo atingido (${maxLimit})!`, "toast-warning");
     return;
   }
 
   gameState.activeCDBs[cdbId] = currentCount + 1;
   gameState.cash += cdb.amount;
-
   sounds.playCash();
   showToast(`💰 R$ ${formatCurrency(cdb.amount)} captados via ${cdb.name}!`, "toast-success");
-
   renderBalances();
   renderFunding();
 }
@@ -1540,7 +1674,6 @@ function requestEmergencyLoan() {
   gameState.cash += amount;
   gameState.reputation = Math.max(10, gameState.reputation - 15);
   gameState.activeCDBs.cdbDiario = (gameState.activeCDBs.cdbDiario || 0) + 1;
-
   sounds.playReject();
   showToast("🚨 R$ 30.000 liberados em linha de redesconto emergencial!", "toast-danger");
   renderBalances();
@@ -1548,30 +1681,27 @@ function requestEmergencyLoan() {
 }
 
 // =============================================================================
-// Conquistas & Marcos Rumo ao Bilhão
+// Conquistas
 // =============================================================================
 function checkAchievements() {
   const net = calculateNetWorth();
-
-  if (net > gameState.peakNetWorth) {
-    gameState.peakNetWorth = net;
-  }
+  if (net > gameState.peakNetWorth) gameState.peakNetWorth = net;
 
   if (net >= 100000 && !gameState.achievements.netWorth100k) {
     gameState.achievements.netWorth100k = true;
-    unlockAchievement("Patrimônio de 6 Dígitos", "Alcançou R$ 100.000 de patrimônio!");
+    unlockAchievement("Patrimônio de 6 Dígitos", "Alcançou R$ 100.000!");
   }
   if (net >= 1000000 && !gameState.achievements.netWorth1M) {
     gameState.achievements.netWorth1M = true;
-    unlockAchievement("Primeiro Milhão", "Parabéns! R$ 1.000.000 de patrimônio!");
+    unlockAchievement("Primeiro Milhão", "R$ 1.000.000 de patrimônio!");
   }
   if (net >= 10000000 && !gameState.achievements.netWorth10M) {
     gameState.achievements.netWorth10M = true;
-    unlockAchievement("Barão do Crédito", "R$ 10.000.000! Uma das maiores financeiras.");
+    unlockAchievement("Barão do Crédito", "R$ 10.000.000 em ativos!");
   }
   if (net >= 100000000 && !gameState.achievements.netWorth100M) {
     gameState.achievements.netWorth100M = true;
-    unlockAchievement("Magnata dos Bancos", "R$ 100.000.000 em ativos sob gestão!");
+    unlockAchievement("Magnata dos Bancos", "R$ 100.000.000 sob gestão!");
   }
   if (net >= 1000000000 && !gameState.achievements.netWorth1B) {
     gameState.achievements.netWorth1B = true;
@@ -1586,7 +1716,7 @@ function unlockAchievement(title, desc) {
 }
 
 // =============================================================================
-// Sparkline Chart (Gráfico em Tempo Real no Canvas)
+// Sparkline Chart Canvas
 // =============================================================================
 function drawSparkline() {
   const canvas = document.getElementById("networth-sparkline");
@@ -1597,7 +1727,6 @@ function drawSparkline() {
   const w = canvas.width;
   const h = canvas.height;
   ctx.clearRect(0, 0, w, h);
-
   if (data.length < 2) return;
 
   const min = Math.min(...data);
@@ -1617,7 +1746,6 @@ function drawSparkline() {
   ctx.lineCap = "round";
   ctx.stroke();
 
-  // Ponto no final
   const lastX = w - 6;
   const lastY = h - ((data[data.length - 1] - min) / range) * (h - 10) - 5;
   ctx.fillStyle = "#ffffff";
@@ -1627,46 +1755,43 @@ function drawSparkline() {
 }
 
 // =============================================================================
-// Renderização Geral de UI
+// Renderização Geral
 // =============================================================================
 function renderBalances() {
   const net = calculateNetWorth();
   const receivables = calculateReceivables();
+  const investments = calculateInvestments();
   const debts = calculateDebts();
   const basileia = calculateBasileia();
   const tier = getBankTier();
 
   document.getElementById("cash-display").textContent = formatCurrency(gameState.cash);
   document.getElementById("receivable-display").textContent = `R$ ${formatCurrency(receivables)}`;
+  document.getElementById("investments-total-display").textContent = `R$ ${formatCurrency(investments)}`;
   document.getElementById("debts-display").textContent = `R$ ${formatCurrency(debts)}`;
   document.getElementById("networth-display").textContent = `R$ ${formatCurrency(net)}`;
-  document.getElementById("reputation-display").textContent = `${gameState.reputation}% ★`;
   document.getElementById("bank-tier-display").textContent = tier.name;
   document.getElementById("current-day-display").textContent = `Dia ${gameState.day} • Mês ${gameState.month}`;
   document.getElementById("selic-rate-display").textContent = `Selic: ${gameState.selic}%`;
   document.getElementById("basileia-display").textContent = `Basileia: ${basileia}%`;
   document.getElementById("bank-name-display").textContent = gameState.bankName;
 
-  // Meta do Bilhão
   const goalTarget = 1000000000;
   const progressPercent = Math.max(0.001, Math.min(100, (net / goalTarget) * 100));
   document.getElementById("goal-percentage").textContent = `${progressPercent.toFixed(3)}%`;
   document.getElementById("goal-progress-fill").style.width = `${progressPercent}%`;
 
-  // Previsão de fluxo diário
   const activeLoans = gameState.activeLoans.filter(l => l.status === "active");
-  const estimatedDailyIncome = activeLoans.reduce((a, b) => a + (b.installmentValue * 0.25), 0);
+  const estimatedDaily = activeLoans.reduce((a, b) => a + (b.installmentValue * 0.25), 0) + ((gameState.cardRevenueMonthly || 0) / 30);
   const flowEl = document.getElementById("daily-flow-tag");
-  if (flowEl) {
-    flowEl.textContent = `+R$ ${formatCurrency(estimatedDailyIncome)}/dia`;
-  }
+  if (flowEl) flowEl.textContent = `+R$ ${formatCurrency(estimatedDaily)}/dia`;
 
-  // Estatísticas
   document.getElementById("stat-total-loaned").textContent = `R$ ${formatCurrency(gameState.stats.totalLoaned)}`;
   document.getElementById("stat-interest-earned").textContent = `R$ ${formatCurrency(gameState.stats.totalInterestEarned)}`;
+  document.getElementById("stat-cards-earned").textContent = `R$ ${formatCurrency(gameState.stats.cardsEarned || 0)}`;
   document.getElementById("stat-default-lost").textContent = `R$ ${formatCurrency(gameState.stats.totalDefaultLost)}`;
-  document.getElementById("stat-total-deals").textContent = gameState.stats.totalDeals;
   document.getElementById("stat-seizures-count").textContent = gameState.stats.seizuresCount;
+  document.getElementById("stat-ma-count").textContent = gameState.stats.maCount || 0;
   document.getElementById("stat-peak-networth").textContent = `R$ ${formatCurrency(gameState.peakNetWorth)}`;
 
   drawSparkline();
@@ -1676,14 +1801,11 @@ function updateInboxBadge() {
   const count = gameState.clientQueue.length;
   const badge = document.getElementById("nav-inbox-badge");
   const countPill = document.getElementById("pending-clients-count");
-
   if (badge) {
     badge.textContent = count;
     badge.classList.toggle("hidden", count === 0);
   }
-  if (countPill) {
-    countPill.textContent = `${count} aguardando`;
-  }
+  if (countPill) countPill.textContent = `${count} aguardando`;
 }
 
 function renderLoansList() {
@@ -1697,25 +1819,20 @@ function renderLoansList() {
   const lateLoans = activeLoans.filter(l => l.status === "late" || l.status === "defaulted");
 
   if (contractsCount) contractsCount.textContent = activeLoans.length;
-
   if (defaultRateDisplay) {
     const rate = activeLoans.length > 0 ? ((lateLoans.length / activeLoans.length) * 100).toFixed(1) : "0.0";
     defaultRateDisplay.textContent = `${rate}%`;
   }
-
   if (monthlyForecastDisplay) {
-    const monthlySum = activeLoans.reduce((a, b) => a + b.installmentValue, 0);
-    monthlyForecastDisplay.textContent = `R$ ${formatCurrency(monthlySum)}`;
+    const sum = activeLoans.reduce((a, b) => a + b.installmentValue, 0);
+    monthlyForecastDisplay.textContent = `R$ ${formatCurrency(sum)}`;
   }
-
-  if (lateBadge) {
-    lateBadge.classList.toggle("hidden", lateLoans.length === 0);
-  }
+  if (lateBadge) lateBadge.classList.toggle("hidden", lateLoans.length === 0);
 
   if (activeLoans.length === 0) {
     container.innerHTML = `
       <div class="empty-state-simple">
-        <p>Nenhum contrato ativo no momento. Deslize os cartões na <strong>Mesa de Operações</strong> para aprovar seus primeiros empréstimos!</p>
+        <p>Nenhum contrato ativo. Deslize propostas na <strong>Mesa de Operações</strong> para aprovar empréstimos!</p>
       </div>
     `;
     return;
@@ -1766,13 +1883,11 @@ function renderLoansList() {
 function actionNegativarSPC(loanId) {
   const loan = gameState.activeLoans.find(l => l.id === loanId);
   if (!loan) return;
-
   const COST = 50;
   if (gameState.cash < COST) {
-    showToast("Sem saldo para taxa do SPC/Serasa!", "toast-danger");
+    showToast("Sem saldo para taxa do SPC!", "toast-danger");
     return;
   }
-
   gameState.cash -= COST;
   sounds.playStamp();
 
@@ -1781,11 +1896,10 @@ function actionNegativarSPC(loanId) {
     loan.daysDelinquent = 0;
     loan.paidInstallments++;
     gameState.cash += loan.installmentValue;
-    showToast(`📝 CPF Negativado! ${loan.borrowerName} pagou a dívida para limpar o nome.`, "toast-success");
+    showToast(`📝 CPF Negativado! ${loan.borrowerName} pagou a dívida.`, "toast-success");
   } else {
     showToast(`📝 CPF Negativado no SPC. O devedor ainda não quitou.`, "toast-warning");
   }
-
   renderLoansList();
   renderBalances();
 }
@@ -1793,16 +1907,12 @@ function actionNegativarSPC(loanId) {
 function actionSellBadDebt(loanId) {
   const loan = gameState.activeLoans.find(l => l.id === loanId);
   if (!loan) return;
-
   const remainingVal = (loan.totalInstallments - loan.paidInstallments) * loan.installmentValue;
   const soldAmount = Math.round(remainingVal * 0.30);
-
   gameState.cash += soldAmount;
   loan.status = "paid";
-
   sounds.playCash();
-  showToast(`💼 Carteira de crédito vendida para fundo FIDC por R$ ${formatCurrency(soldAmount)}.`, "toast-success");
-
+  showToast(`💼 Dívida vendida para FIDC por R$ ${formatCurrency(soldAmount)}.`, "toast-success");
   renderLoansList();
   renderBalances();
 }
@@ -1821,11 +1931,9 @@ function renderTreasury() {
 function renderFunding() {
   const container = document.getElementById("funding-cards-container");
   if (!container) return;
-
   container.innerHTML = CDB_CONFIG.map(cdb => {
     const count = gameState.activeCDBs[cdb.id] || 0;
     const totalIssued = count * cdb.amount;
-
     return `
       <div class="funding-card">
         <div class="funding-header">
@@ -1834,7 +1942,7 @@ function renderFunding() {
         </div>
         <p class="funding-desc">${cdb.desc}</p>
         <div class="funding-actions">
-          <span class="font-mono text-cyan" style="font-size: 11px;">Ativo: R$ ${formatCurrency(totalIssued)} (${count})</span>
+          <span class="font-mono text-cyan" style="font-size: 10px;">Ativo: R$ ${formatCurrency(totalIssued)} (${count})</span>
           <button class="btn-fund-issue" onclick="issueCDB('${cdb.id}')">+ Captar R$ ${formatCurrency(cdb.amount)}</button>
         </div>
       </div>
@@ -1845,10 +1953,8 @@ function renderFunding() {
 function renderExecutives() {
   const container = document.getElementById("executives-container");
   if (!container) return;
-
   container.innerHTML = EXECUTIVES_CONFIG.map(exec => {
     const isHired = gameState.executives[exec.id];
-
     return `
       <div class="exec-card ${isHired ? 'hired' : ''}">
         <div class="exec-top-row">
@@ -1859,9 +1965,7 @@ function renderExecutives() {
           </div>
         </div>
         <p class="exec-perk">${exec.perk}</p>
-        ${isHired ? `
-          <span class="badge-purchased" style="text-align: center;">✓ Contratado</span>
-        ` : `
+        ${isHired ? `<span class="badge-purchased" style="text-align: center;">✓ Contratado</span>` : `
           <button class="btn-hire-exec" onclick="hireExecutive('${exec.id}')">Contratar (R$ ${formatCurrency(exec.cost)})</button>
         `}
       </div>
@@ -1872,10 +1976,8 @@ function renderExecutives() {
 function renderUpgrades() {
   const container = document.getElementById("upgrades-list-container");
   if (!container) return;
-
   container.innerHTML = UPGRADES_CONFIG.map(up => {
     const isBought = gameState.upgrades[up.id];
-
     return `
       <div class="upgrade-card ${isBought ? 'purchased' : ''}">
         <div class="upgrade-icon-wrap">${up.icon}</div>
@@ -1884,9 +1986,7 @@ function renderUpgrades() {
           <p class="upgrade-desc">${up.desc}</p>
         </div>
         <div>
-          ${isBought ? `
-            <span class="badge-purchased">✓ Ativo</span>
-          ` : `
+          ${isBought ? `<span class="badge-purchased">✓ Ativo</span>` : `
             <button class="btn-buy-upgrade" onclick="buyUpgrade('${up.id}')">R$ ${formatCurrency(up.cost)}</button>
           `}
         </div>
@@ -1898,10 +1998,9 @@ function renderUpgrades() {
 function renderAchievements() {
   const container = document.getElementById("achievements-container");
   if (!container) return;
-
   const ACHIEVEMENTS_LIST = [
     { id: "firstLoan", title: "Primeiro Crédito", icon: "🤝", desc: "Aprovou o primeiro empréstimo" },
-    { id: "auditMaster", title: "Detetive Financeiro", icon: "🔍", desc: "Consultou dossiê sigiloso" },
+    { id: "auditMaster", title: "Detetive Financeiro", icon: "🔍", desc: "Escanou dossiê sigiloso" },
     { id: "netWorth100k", title: "Cem Mil", icon: "💵", desc: "R$ 100k de patrimônio" },
     { id: "seizureChamp", title: "Martelo de Ouro", icon: "⚖️", desc: "Arrematou bem em leilão" },
     { id: "netWorth1M", title: "Primeiro Milhão", icon: "💎", desc: "R$ 1.000.000 de patrimônio!" },
@@ -1927,8 +2026,12 @@ function renderAchievements() {
 function renderAll() {
   renderBalances();
   renderTreasury();
+  renderCardsSection();
+  renderStocks();
   renderLoansList();
   renderFunding();
+  renderHQ();
+  renderMA();
   renderExecutives();
   renderUpgrades();
   renderAchievements();
@@ -1936,7 +2039,7 @@ function renderAll() {
 }
 
 // =============================================================================
-// Troca de Temas
+// Temas
 // =============================================================================
 function setTheme(themeName, showToastMsg = true) {
   gameState.bankTheme = themeName;
@@ -1952,14 +2055,9 @@ function setTheme(themeName, showToastMsg = true) {
   }
 
   drawSparkline();
-  if (showToastMsg) {
-    showToast("🎨 Tema visual atualizado!", "toast-success");
-  }
+  if (showToastMsg) showToast("🎨 Tema visual atualizado!", "toast-success");
 }
 
-// =============================================================================
-// Utilitários de Interface (Modais, Relógio, Notícias, Toasts)
-// =============================================================================
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) modal.classList.remove("hidden");
@@ -1978,13 +2076,10 @@ function setNewsTicker(text) {
 function showToast(message, type = "toast-success") {
   const container = document.getElementById("toast-container");
   if (!container) return;
-
   const toast = document.createElement("div");
   toast.className = `toast ${type}`;
   toast.textContent = message;
-
   container.appendChild(toast);
-
   setTimeout(() => {
     toast.style.opacity = "0";
     toast.style.transform = "translateY(-10px)";
@@ -2003,48 +2098,42 @@ function updateClock() {
 
 function setGameSpeed(speed) {
   gameSpeed = speed;
-
   const btnPause = document.getElementById("btn-speed-pause");
   const btn1x = document.getElementById("btn-speed-1x");
-  const btn3x = document.getElementById("btn-speed-3x");
+  const btn2x = document.getElementById("btn-speed-2x");
+  const btn4x = document.getElementById("btn-speed-4x");
 
   if (btnPause) btnPause.classList.toggle("active", speed === 0);
   if (btn1x) btn1x.classList.toggle("active", speed === 1);
-  if (btn3x) btn3x.classList.toggle("active", speed === 3);
+  if (btn2x) btn2x.classList.toggle("active", speed === 2);
+  if (btn4x) btn4x.classList.toggle("active", speed === 4);
 
   if (gameInterval) {
     clearInterval(gameInterval);
     gameInterval = null;
   }
 
-  if (speed === 1) {
-    gameInterval = setInterval(passOneDay, 3000);
-  } else if (speed === 3) {
-    gameInterval = setInterval(passOneDay, 1000);
-  }
+  if (speed === 1) gameInterval = setInterval(passOneDay, 3000);
+  else if (speed === 2) gameInterval = setInterval(passOneDay, 1800);
+  else if (speed === 4) gameInterval = setInterval(passOneDay, 800);
 }
 
 // =============================================================================
-// Configuração de Event Listeners
+// Event Listeners
 // =============================================================================
 function setupUIEventListeners() {
-  // Troca de Abas
   const navItems = document.querySelectorAll(".nav-item");
   navItems.forEach(item => {
     item.addEventListener("click", () => {
       navItems.forEach(n => n.classList.remove("active"));
       item.classList.add("active");
-
       const tabId = item.getAttribute("data-tab");
-      document.querySelectorAll(".tab-view").forEach(tab => {
-        tab.classList.remove("active");
-      });
+      document.querySelectorAll(".tab-view").forEach(tab => tab.classList.remove("active"));
       const activeTab = document.getElementById(tabId);
       if (activeTab) activeTab.classList.add("active");
     });
   });
 
-  // Botões de Ação do Deck
   const btnQuickReject = document.getElementById("btn-quick-reject");
   if (btnQuickReject) btnQuickReject.addEventListener("click", rejectCurrentClient);
 
@@ -2052,26 +2141,26 @@ function setupUIEventListeners() {
   if (btnQuickApprove) btnQuickApprove.addEventListener("click", approveCurrentClient);
 
   const btnQuickDossier = document.getElementById("btn-quick-dossier");
-  if (btnQuickDossier) btnQuickDossier.addEventListener("click", openDossierModal);
+  if (btnQuickDossier) btnQuickDossier.addEventListener("click", openDossierWithLaser);
 
   const btnQuickCounter = document.getElementById("btn-quick-counter");
   if (btnQuickCounter) btnQuickCounter.addEventListener("click", makeCounterOffer);
 
-  // Avançar Dia Manual
   const btnNextDay = document.getElementById("btn-next-day");
   if (btnNextDay) btnNextDay.addEventListener("click", passOneDay);
 
-  // Velocidade
   const btnPause = document.getElementById("btn-speed-pause");
   if (btnPause) btnPause.addEventListener("click", () => setGameSpeed(0));
 
   const btn1x = document.getElementById("btn-speed-1x");
   if (btn1x) btn1x.addEventListener("click", () => setGameSpeed(1));
 
-  const btn3x = document.getElementById("btn-speed-3x");
-  if (btn3x) btn3x.addEventListener("click", () => setGameSpeed(3));
+  const btn2x = document.getElementById("btn-speed-2x");
+  if (btn2x) btn2x.addEventListener("click", () => setGameSpeed(2));
 
-  // Áudio & Música
+  const btn4x = document.getElementById("btn-speed-4x");
+  if (btn4x) btn4x.addEventListener("click", () => setGameSpeed(4));
+
   const btnMusic = document.getElementById("btn-music-toggle");
   if (btnMusic) btnMusic.addEventListener("click", () => sounds.toggleMusic());
 
@@ -2088,52 +2177,60 @@ function setupUIEventListeners() {
     });
   }
 
+  // Roleta da Faria Lima
+  const btnWheelTrigger = document.getElementById("btn-spin-wheel-trigger");
+  if (btnWheelTrigger) btnWheelTrigger.addEventListener("click", () => openModal('wheel-modal'));
+
+  const btnSpin = document.getElementById("btn-spin-wheel");
+  if (btnSpin) btnSpin.addEventListener("click", spinLuckyWheel);
+
+  // Cartões Black
+  const btnIssueCards = document.getElementById("btn-issue-bank-cards");
+  if (btnIssueCards) btnIssueCards.addEventListener("click", issueBankCards);
+
+  // Evoluir Sede
+  const btnUpgradeHQ = document.getElementById("btn-upgrade-hq");
+  if (btnUpgradeHQ) btnUpgradeHQ.addEventListener("click", upgradeHQ);
+
   // Renomear Banco
   const bankNameEl = document.getElementById("bank-name-display");
   if (bankNameEl) {
     bankNameEl.addEventListener("click", () => {
-      const newName = prompt("Digite o novo nome para sua instituição financeira:", gameState.bankName);
+      const newName = prompt("Digite o novo nome para sua instituição:", gameState.bankName);
       if (newName && newName.trim()) {
         gameState.bankName = newName.trim();
         bankNameEl.textContent = gameState.bankName;
+        const brand = document.getElementById("card-bank-name");
+        if (brand) brand.textContent = gameState.bankName.toUpperCase();
         showToast(`Instituição renomeada para ${gameState.bankName}!`, "toast-success");
       }
     });
   }
 
-  // Seletor de Temas
   document.querySelectorAll(".theme-pill").forEach(pill => {
-    pill.addEventListener("click", () => {
-      const theme = pill.getAttribute("data-theme");
-      setTheme(theme, true);
-    });
+    pill.addEventListener("click", () => setTheme(pill.getAttribute("data-theme"), true));
   });
 
-  // Tesouro Selic
   const btnTreasuryDep = document.getElementById("btn-treasury-deposit");
   if (btnTreasuryDep) btnTreasuryDep.addEventListener("click", () => depositTreasury(10000));
 
   const btnTreasuryWith = document.getElementById("btn-treasury-withdraw");
   if (btnTreasuryWith) btnTreasuryWith.addEventListener("click", withdrawTreasury);
 
-  // Redesconto Emergencial Bacen
   const btnEmergency = document.getElementById("btn-emergency-loan");
   if (btnEmergency) btnEmergency.addEventListener("click", requestEmergencyLoan);
 
-  // Salvar & Resetar
   const btnSave = document.getElementById("btn-save-game");
   if (btnSave) btnSave.addEventListener("click", () => saveGame(true));
 
   const btnReset = document.getElementById("btn-reset-game");
   if (btnReset) btnReset.addEventListener("click", resetGame);
 
-  // Filtros de Carteira
   document.querySelectorAll(".filter-pill").forEach(pill => {
     pill.addEventListener("click", () => {
       document.querySelectorAll(".filter-pill").forEach(p => p.classList.remove("active"));
       pill.classList.add("active");
-      const filter = pill.getAttribute("data-filter");
-      filterLoans(filter);
+      filterLoans(pill.getAttribute("data-filter"));
     });
   });
 }
@@ -2141,15 +2238,10 @@ function setupUIEventListeners() {
 function filterLoans(filter) {
   const cards = document.querySelectorAll(".loan-item-card");
   cards.forEach(card => {
-    if (filter === "all") {
-      card.style.display = "flex";
-    } else if (filter === "late") {
-      card.style.display = card.classList.contains("status-late") ? "flex" : "none";
-    } else if (filter === "default") {
-      card.style.display = card.classList.contains("status-default") ? "flex" : "none";
-    }
+    if (filter === "all") card.style.display = "flex";
+    else if (filter === "late") card.style.display = card.classList.contains("status-late") ? "flex" : "none";
+    else if (filter === "default") card.style.display = card.classList.contains("status-default") ? "flex" : "none";
   });
 }
 
-// Iniciar quando o DOM estiver pronto
 window.addEventListener("DOMContentLoaded", initGame);
